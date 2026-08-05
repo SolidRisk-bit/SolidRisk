@@ -812,15 +812,18 @@ with st.sidebar:
     if st.button("SARM"):
         st.session_state.modulo = "SARM"
 
-    if st.button("SARO"):
-        st.session_state.modulo = "SARO"
+if st.button("SARO"):
+    st.session_state.modulo = "SARO"
 
-    st.markdown("---")
+if st.button("Reportes"):
+    st.session_state.modulo = "Reportes"   # Nueva sección
 
-    if st.button("Cerrar sesión"):
-        st.session_state.login = False
-        st.session_state.modulo = "Dashboard Ejecutivo"
-        st.rerun()
+st.markdown("---")
+
+if st.button("Cerrar sesión"):
+    st.session_state.login = False
+    st.session_state.modulo = "Dashboard Ejecutivo"
+    st.rerun()
 
 
 # =====================================================
