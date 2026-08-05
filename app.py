@@ -71,7 +71,7 @@ st.markdown(
         color: white;
         margin-bottom: 25px;
         box-shadow: 0px 15px 40px rgba(0,0,0,0.15);
-    }
+    }}
     .main-title {{
         font-size: 38px;
         font-weight: 800;
