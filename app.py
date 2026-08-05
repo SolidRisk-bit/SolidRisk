@@ -236,17 +236,18 @@ section[data-testid="stSidebar"] * {{
 
 div.stButton > button {{
     width: 100%;
-    background-color: {ACCENT};
+    background: linear-gradient(135deg, {ACCENT_2} 0%, {ACCENT} 100%);
     color: white;
     border-radius: 12px;
     border: 1px solid {ACCENT};
     padding: 0.65rem 1rem;
     font-weight: 700;
     font-size: 15px;
+    transition: background 0.3s ease;
 }}
 
 div.stButton > button:hover {{
-    background-color: {ACCENT_2};
+    background: linear-gradient(135deg, {ACCENT} 0%, {ACCENT_2} 100%);
     color: white;
     border: 1px solid {ACCENT_2};
 }}
