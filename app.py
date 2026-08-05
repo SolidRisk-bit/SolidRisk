@@ -829,6 +829,15 @@ with st.sidebar:
             st.session_state.modulo = "Dashboard Ejecutivo"
             st.rerun()
 
+section[data-testid="stSidebar"] div.stButton:last-child > button {
+    background: #6B7280; /* Gris */
+    border: 1px solid #4B5563;
+}
+
+section[data-testid="stSidebar"] div.stButton:last-child > button:hover {
+    background: #4B5563; /* Gris más oscuro */
+    border: 1px solid #374151;
+}
 
 # =====================================================
 # DASHBOARD EJECUTIVO
