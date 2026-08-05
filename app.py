@@ -157,14 +157,24 @@ st.markdown(
         margin-bottom: 18px;
     }}
 
-    .kpi-card {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 6px 18px rgba(11,31,58,0.06);
-        border-left: 5px solid {ACCENT};
-        min-height: 120px;
+    .kpi-card{
+        background:white;
+        border-radius:18px;
+        padding:22px;
+        border:none;
+        box-shadow:0px 8px 25px rgba(0,0,0,0.07);
+        border-top:5px solid #FD5108;
+        transition:all .25s ease;
+    }}
+
+    .kpi-card:hover{
+            transform:translateY(-4px);
+    }}
+
+    .kpi-value{
+            font-size:32px;
+            font-weight:800;
+            color:#1E293B;
     }}
 
     .kpi-label {{
