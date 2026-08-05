@@ -17,17 +17,26 @@ st.set_page_config(
 )
 
 # =====================================================
-# PALETA Y ESTILOS CORPORATIVOS
+# PALETA CORPORATIVA PREMIUM 2026
 # =====================================================
 
-PRIMARY = "#0B1F3A"
-SECONDARY = "#1D3B5C"
-ACCENT = "#F58220"
-BG = "#F5F7FA"
+PRIMARY = "#1E293B"       # Gris azulado oscuro
+SECONDARY = "#475569"     # Gris corporativo
+ACCENT = "#FD5108"        # Naranja principal
+ACCENT_2 = "#FE8C39"      # Naranja medio
+ACCENT_3 = "#FFAA72"      # Naranja suave
+
+BG = "#F5F5F5"
 CARD = "#FFFFFF"
-TEXT = "#1F2937"
+
+TEXT = "#111111"
 MUTED = "#6B7280"
-BORDER = "#E5E7EB"
+BORDER = "#D8DCE2"
+
+GREY_1 = "#A1A8B3"
+GREY_2 = "#B5BCC4"
+GREY_3 = "#CBD2D8"
+
 GREEN = "#1B7F5C"
 RED = "#B42318"
 AMBER = "#B7791F"
