@@ -17,244 +17,739 @@ st.set_page_config(
 )
 
 # =====================================================
-# PALETA Y ESTILOS CORPORATIVOS
+# PALETA CORPORATIVA SOLIDRISK
 # =====================================================
 
-PRIMARY = "#0B1F3A"
-SECONDARY = "#1D3B5C"
-ACCENT = "#F58220"
-BG = "#F5F7FA"
-CARD = "#FFFFFF"
-TEXT = "#1F2937"
+WHITE = "#FFFFFF"
+BLACK = "#000000"
+
+BG = "#EBEBEB"
+
+ORANGE = "#FD5108"
+MEDIUM_ORANGE = "#FE7C39"
+LIGHT_ORANGE = "#FFAA72"
+
+GREY = "#A1A8B3"
+MEDIUM_GREY = "#B5BCC4"
+LIGHT_GREY = "#CBD1D6"
+
+SUCCESS = "#2E8B57"
+WARNING = "#C58B18"
+DANGER = "#B22222"
+
+TEXT = "#000000"
 MUTED = "#6B7280"
 BORDER = "#E5E7EB"
-GREEN = "#1B7F5C"
-RED = "#B42318"
-AMBER = "#B7791F"
+
+# =====================================================
+# ESTILOS CORPORATIVOS PREMIUM
+# =====================================================
 
 st.markdown(
-    f"""
-    <style>
+f"""
+<style>
 
-    .stApp {{
-        background-color: {BG};
-        color: {TEXT};
-        font-family: "Segoe UI", Arial, sans-serif;
-    }}
+.stApp {{
+    background: linear-gradient(
+        180deg,
+        #F5F5F5 0%,
+        #EBEBEB 100%);
+}}
 
-    section[data-testid="stSidebar"] {{
-        background: linear-gradient(180deg, {PRIMARY} 0%, {SECONDARY} 100%);
-    }}
+section[data-testid="stSidebar"] {{
+    background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #232323 100%);
+}}
 
-    section[data-testid="stSidebar"] * {{
-        color: white !important;
-    }}
+section[data-testid="stSidebar"] * {{
+    color:white !important;
+}}
 
-    .main-header {{
-        background: linear-gradient(90deg, {PRIMARY} 0%, {SECONDARY} 75%, {ACCENT} 100%);
-        padding: 28px 32px;
-        border-radius: 18px;
-        color: white;
-        margin-bottom: 24px;
-        box-shadow: 0 8px 24px rgba(11,31,58,0.18);
-    }}
+.main-header {{
 
-    .main-title {{
-        font-size: 38px;
-        font-weight: 800;
-        letter-spacing: 1.8px;
-        margin: 0;
-    }}
+background:linear-gradient(
+90deg,
+#000000 0%,
+#2B2B2B 50%,
+#FD5108 100%);
 
-    .main-subtitle {{
-        font-size: 15px;
-        color: #DDE7F0;
-        margin-top: 6px;
-        margin-bottom: 0;
-    }}
+padding:34px;
 
-    .brand-line {{
-        font-size: 13px;
-        color: #F8C99B;
-        margin-top: 10px;
-        font-weight: 600;
-    }}
+border-radius:24px;
 
-    .login-box {{
-        background-color: white;
-        padding: 34px;
-        border-radius: 20px;
-        box-shadow: 0 12px 34px rgba(11,31,58,0.15);
-        border: 1px solid {BORDER};
-        max-width: 480px;
-        margin: 45px auto 10px auto;
-    }}
+box-shadow:
+0 14px 40px rgba(0,0,0,.18);
 
-    .login-title {{
-        font-size: 34px;
-        font-weight: 800;
-        color: {PRIMARY};
-        text-align: center;
-        letter-spacing: 1.6px;
-        margin-bottom: 4px;
-    }}
+margin-bottom:25px;
+}}
 
-    .login-subtitle {{
-        text-align: center;
-        color: {MUTED};
-        font-size: 14px;
-        margin-bottom: 26px;
-    }}
+.main-title {{
 
-    .module-card {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 18px;
-        padding: 24px;
-        min-height: 155px;
-        box-shadow: 0 6px 18px rgba(11,31,58,0.08);
-        border-top: 5px solid {ACCENT};
-        transition: all 0.2s ease-in-out;
-    }}
+font-size:44px;
 
-    .module-card:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 10px 28px rgba(11,31,58,0.14);
-    }}
+font-weight:900;
 
-    .module-title {{
-        font-size: 22px;
-        font-weight: 800;
-        color: {PRIMARY};
-        margin-bottom: 8px;
-    }}
+letter-spacing:2px;
 
-    .module-text {{
-        font-size: 14px;
-        color: {MUTED};
-        line-height: 1.45;
-    }}
+color:white;
 
-    .section-card {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 18px;
-        padding: 22px;
-        box-shadow: 0 6px 18px rgba(11,31,58,0.06);
-        margin-bottom: 18px;
-    }}
+margin:0;
+}}
 
-    .kpi-card {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 6px 18px rgba(11,31,58,0.06);
-        border-left: 5px solid {ACCENT};
-        min-height: 120px;
-    }}
+.main-subtitle {{
 
-    .kpi-label {{
-        font-size: 12px;
-        color: {MUTED};
-        text-transform: uppercase;
-        font-weight: 700;
-        letter-spacing: 0.6px;
-    }}
+font-size:15px;
 
-    .kpi-value {{
-        font-size: 29px;
-        color: {PRIMARY};
-        font-weight: 800;
-        margin-top: 8px;
-    }}
+color:#F1F1F1;
 
-    .kpi-note {{
-        font-size: 12px;
-        color: {MUTED};
-        margin-top: 4px;
-    }}
+margin-top:6px;
+}}
 
-    .status-normal {{
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: rgba(27,127,92,0.12);
-        color: {GREEN};
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-top: 8px;
-    }}
+.brand-line {{
 
-    .status-warning {{
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: rgba(183,121,31,0.12);
-        color: {AMBER};
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-top: 8px;
-    }}
+font-size:13px;
 
-    .status-critical {{
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: rgba(180,35,24,0.12);
-        color: {RED};
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-top: 8px;
-    }}
+font-weight:700;
 
-    .footer {{
-        text-align:center;
-        color:{MUTED};
-        font-size:12px;
-        margin-top:36px;
-        padding-top:18px;
-        border-top:1px solid {BORDER};
-    }}
+color:#FFAA72;
 
-    div.stButton > button {{
-        width: 100%;
-        background-color: {PRIMARY};
-        color: white;
-        border-radius: 12px;
-        border: 1px solid {PRIMARY};
-        padding: 0.65rem 1rem;
-        font-weight: 700;
-        font-size: 15px;
-    }}
+margin-top:8px;
+}}
 
-    div.stButton > button:hover {{
-        background-color: {ACCENT};
-        color: white;
-        border: 1px solid {ACCENT};
-    }}
+.login-box {{
 
-    .stTabs [data-baseweb="tab-list"] {{
-        gap: 8px;
-    }}
+background:white;
 
-    .stTabs [data-baseweb="tab"] {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 12px 12px 0 0;
-        padding: 12px 18px;
-        color: {PRIMARY};
-        font-weight: 700;
-    }}
+padding:40px;
 
-    .stTabs [aria-selected="true"] {{
-        border-top: 4px solid {ACCENT};
-        color: {PRIMARY};
-    }}
+border-radius:24px;
 
-    </style>
+box-shadow:
+0 14px 40px rgba(0,0,0,.15);
+
+max-width:500px;
+
+margin:auto;
+
+margin-top:40px;
+}}
+
+.login-title {{
+
+text-align:center;
+
+font-size:38px;
+
+font-weight:900;
+
+color:#000000;
+}}
+
+.login-subtitle {{
+
+text-align:center;
+
+font-size:14px;
+
+color:#6B7280;
+
+margin-bottom:20px;
+}}
+
+.executive-box {{
+
+background:white;
+
+padding:28px;
+
+border-radius:24px;
+
+box-shadow:
+0 10px 28px rgba(0,0,0,.06);
+
+margin-bottom:24px;
+}}
+
+.executive-title {{
+
+font-size:28px;
+
+font-weight:900;
+
+color:black;
+}}
+
+.executive-subtitle {{
+
+font-size:14px;
+
+color:#6B7280;
+
+margin-top:5px;
+}}
+
+.section-card {{
+
+background:white;
+
+padding:24px;
+
+border-radius:22px;
+
+box-shadow:
+0 8px 22px rgba(0,0,0,.05);
+
+margin-bottom:18px;
+}}
+
+.kpi-card {{
+
+background:white;
+
+border-radius:22px;
+
+padding:24px;
+
+min-height:215px;
+
+box-shadow:
+0 12px 32px rgba(0,0,0,.08);
+
+position:relative;
+
+overflow:hidden;
+}}
+
+.kpi-card::before {{
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+top:0;
+
+width:6px;
+
+height:100%;
+
+background:#FD5108;
+}}
+
+.kpi-card::after {{
+
+content:"";
+
+position:absolute;
+
+right:-55px;
+
+top:-55px;
+
+width:120px;
+
+height:120px;
+
+background:rgba(253,81,8,.06);
+
+border-radius:50%;
+}}
+
+.kpi-label {{
+
+font-size:12px;
+
+text-transform:uppercase;
+
+font-weight:800;
+
+letter-spacing:1px;
+
+color:#6B7280;
+
+margin-bottom:18px;
+}}
+
+.kpi-value {{
+
+font-size:42px;
+
+font-weight:900;
+
+color:black;
+}}
+
+.kpi-note {{
+
+font-size:14px;
+
+line-height:1.55;
+
+margin-top:10px;
+
+color:#6B7280;
+}}
+
+.status-normal {{
+
+display:inline-block;
+
+padding:7px 15px;
+
+background:rgba(46,139,87,.12);
+
+color:{SUCCESS};
+
+border-radius:999px;
+
+font-size:12px;
+
+font-weight:800;
+
+margin-top:18px;
+}}
+
+.status-warning {{
+
+display:inline-block;
+
+padding:7px 15px;
+
+background:rgba(197,139,24,.15);
+
+color:{WARNING};
+
+border-radius:999px;
+
+font-size:12px;
+
+font-weight:800;
+
+margin-top:18px;
+}}
+
+.status-critical {{
+
+display:inline-block;
+
+padding:7px 15px;
+
+background:rgba(178,34,34,.12);
+
+color:{DANGER};
+
+border-radius:999px;
+
+font-size:12px;
+
+font-weight:800;
+
+margin-top:18px;
+}}
+
+.report-card {{
+
+background:white;
+
+padding:30px;
+
+border-radius:24px;
+
+box-shadow:
+0 10px 24px rgba(0,0,0,.06);
+
+margin-bottom:20px;
+}}
+
+.report-title {{
+
+font-size:24px;
+
+font-weight:900;
+
+color:black;
+}}
+
+.report-text {{
+
+font-size:14px;
+
+line-height:1.6;
+
+color:#6B7280;
+}}
+
+.report-chip {{
+
+display:inline-block;
+
+padding:7px 14px;
+
+background:#F2F2F2;
+
+border-radius:999px;
+
+font-size:12px;
+
+font-weight:700;
+
+margin-right:8px;
+
+margin-top:12px;
+}}
+
+div.stButton > button {{
+
+width:100%;
+
+background:#000000;
+
+color:white;
+
+border-radius:12px;
+
+height:48px;
+
+font-weight:800;
+
+border:none;
+}}
+
+div.stButton > button:hover {{
+
+background:#FD5108;
+
+color:white;
+}}
+
+.stTabs [data-baseweb="tab-list"] {{
+    gap: 8px;
+}}
+
+.stTabs [data-baseweb="tab"] {{
+    background:white;
+    border-radius:14px 14px 0px 0px;
+    padding:12px 18px;
+    font-weight:700;
+}}
+
+.stTabs [aria-selected="true"] {{
+    border-top:4px solid #FD5108;
+}}
+
+.footer {{
+
+text-align:center;
+
+font-size:12px;
+
+color:#6B7280;
+
+margin-top:40px;
+}}
+
+</style>
+""",
+unsafe_allow_html=True
+)
+
+# =====================================================
+# HEADER PRINCIPAL
+# =====================================================
+
+def page_header():
+
+    st.markdown(
+    """
+    <div class="main-header">
+
+        <div class="main-title">
+        SOLIDRISK
+        </div>
+
+        <div class="main-subtitle">
+        Enterprise Risk Intelligence Platform
+        </div>
+
+        <div class="brand-line">
+        By PwC - Analfe
+        </div>
+
+    </div>
     """,
     unsafe_allow_html=True
+    )
+
+# =====================================================
+# KPI CARD PROFESIONAL
+# =====================================================
+
+def kpi_card(
+    titulo,
+    valor,
+    descripcion,
+    estado="Adecuado"
+):
+
+    colores = {
+        "Adecuado":"status-normal",
+        "Observación":"status-warning",
+        "Crítico":"status-critical"
+    }
+
+    st.markdown(
+    f"""
+    <div class="kpi-card">
+
+        <div class="kpi-label">
+        {titulo}
+        </div>
+
+        <div class="kpi-value">
+        {valor}
+        </div>
+
+        <div class="kpi-note">
+        {descripcion}
+        </div>
+
+        <div class="{colores[estado]}">
+        {estado}
+        </div>
+
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
+
+# =====================================================
+# CONFIGURACIÓN CORPORATIVA PLOTLY
+# =====================================================
+
+COLOR_SEQUENCE = [
+    "#FD5108",
+    "#FE7C39",
+    "#FFAA72",
+    "#A1A8B3",
+    "#B5BCC4",
+    "#CBD1D6"
+]
+
+def aplicar_estilo_plotly(fig):
+
+    fig.update_layout(
+
+        template="plotly_white",
+
+        paper_bgcolor="white",
+
+        plot_bgcolor="white",
+
+        font=dict(
+            family="Segoe UI",
+            color="#000000"
+        ),
+
+        title_font=dict(
+            size=20,
+            color="#000000"
+        ),
+
+        legend=dict(
+            orientation="h"
+        ),
+
+        margin=dict(
+            l=20,
+            r=20,
+            t=60,
+            b=20
+        )
+    )
+
+    return fig
+
+# =====================================================
+# EJEMPLO RESUMEN EJECUTIVO
+# COLOCAR ANTES DE LOS KPIs
+# =====================================================
+
+st.markdown(
+"""
+<div class="executive-box">
+
+<div class="executive-title">
+Resumen Ejecutivo
+</div>
+
+<div class="executive-subtitle">
+Indicadores estratégicos para Junta Directiva,
+Comité de Riesgos y Alta Gerencia.
+</div>
+
+</div>
+""",
+unsafe_allow_html=True
+)
+
+# =====================================================
+# EJEMPLO KPIs
+# =====================================================
+
+k1,k2,k3,k4,k5 = st.columns(5)
+
+with k1:
+    kpi_card(
+        "Cartera / Activos",
+        "86.04%",
+        "Participación de cartera dentro del activo.",
+        "Crítico"
+    )
+
+with k2:
+    kpi_card(
+        "Crecimiento Anual",
+        "0.35%",
+        "Variación acumulada de los últimos 12 meses.",
+        "Adecuado"
+    )
+
+with k3:
+    kpi_card(
+        "Cobertura Total",
+        "0.90%",
+        "Provisión constituida sobre cartera total.",
+        "Crítico"
+    )
+
+with k4:
+    kpi_card(
+        "Cobertura Vencida",
+        "0.82x",
+        "Provisión constituida sobre cartera vencida.",
+        "Observación"
+    )
+
+with k5:
+    kpi_card(
+        "Depósitos / Cartera",
+        "54.37%",
+        "Cobertura de cartera con fuentes de fondeo.",
+        "Crítico"
+    )
+
+# =====================================================
+# TABS PRINCIPALES
+# =====================================================
+
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    "Estructura de Cartera",
+    "Calidad Crediticia",
+    "Deterioro y Provisiones",
+    "Concentración",
+    "Liquidez y Fondeo",
+    "Reportes"
+])
+
+# =====================================================
+# CENTRO DE REPORTES
+# =====================================================
+
+with tab6:
+
+    st.markdown(
+    """
+    <div class="report-card">
+
+        <div class="report-title">
+        Centro de Reportes
+        </div>
+
+        <div class="report-text">
+
+        Generación de reportes ejecutivos para:
+
+        • Junta Directiva
+
+        • Comité de Riesgos
+
+        • Auditoría
+
+        • Alta Gerencia
+
+        </div>
+
+        <span class="report-chip">
+        Excel Ejecutivo
+        </span>
+
+        <span class="report-chip">
+        PDF Junta
+        </span>
+
+        <span class="report-chip">
+        PDF Riesgos
+        </span>
+
+        <span class="report-chip">
+        HTML Ejecutivo
+        </span>
+
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
+
+    col1,col2,col3 = st.columns(3)
+
+    with col1:
+
+        st.download_button(
+            "Reporte Ejecutivo Excel",
+            data=b"demo",
+            file_name="SolidRisk_Reporte_Ejecutivo.xlsx"
+        )
+
+    with col2:
+
+        st.download_button(
+            "Reporte Junta Directiva",
+            data=b"demo",
+            file_name="SolidRisk_Junta_Directiva.pdf"
+        )
+
+    with col3:
+
+        st.download_button(
+            "Reporte Comité Riesgos",
+            data=b"demo",
+            file_name="SolidRisk_Comite_Riesgos.pdf"
+        )
+
+# =====================================================
+# FOOTER
+# =====================================================
+
+st.markdown(
+"""
+<div class="footer">
+
+SOLIDRISK 1.0
+
+<br>
+
+Enterprise Risk Intelligence Platform
+
+<br>
+
+By PwC - Analfe
+
+</div>
+""",
+unsafe_allow_html=True
 )
 
 # =====================================================
