@@ -821,10 +821,13 @@ with st.sidebar:
     
     st.markdown("---")
     
-    if st.button("Cerrar sesión"):
-        st.session_state.login = False
-        st.session_state.modulo = "Dashboard Ejecutivo"
-        st.rerun()
+    logout_placeholder = st.empty()
+    
+    with logout_placeholder.container():
+        if st.button("Cerrar sesión"):
+            st.session_state.login = False
+            st.session_state.modulo = "Dashboard Ejecutivo"
+            st.rerun()
 
 
 # =====================================================
