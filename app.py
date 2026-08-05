@@ -236,19 +236,19 @@ section[data-testid="stSidebar"] * {{
 
 div.stButton > button {{
     width: 100%;
-    background-color: {PRIMARY};
+    background-color: {ACCENT};
     color: white;
     border-radius: 12px;
-    border: 1px solid {PRIMARY};
+    border: 1px solid {ACCENT};
     padding: 0.65rem 1rem;
     font-weight: 700;
     font-size: 15px;
 }}
 
 div.stButton > button:hover {{
-    background-color: {ACCENT};
+    background-color: {ACCENT_2};
     color: white;
-    border: 1px solid {ACCENT};
+    border: 1px solid {ACCENT_2};
 }}
 
 .stTabs [data-baseweb="tab-list"] {{
