@@ -165,7 +165,7 @@ st.markdown(
         box-shadow:0px 8px 25px rgba(0,0,0,0.07);
         border-top:5px solid #FD5108;
         transition:all .25s ease;
-    }}
+    }
 
     .kpi-card:hover{
             transform:translateY(-4px);
