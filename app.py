@@ -175,7 +175,7 @@ st.markdown(
             font-size:32px;
             font-weight:800;
             color:#1E293B;
-    }}
+    }
 
     .kpi-label {{
         font-size: 12px;
