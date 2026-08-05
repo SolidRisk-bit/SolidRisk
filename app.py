@@ -60,14 +60,18 @@ st.markdown(
     }}
 
     .main-header {{
-        background: linear-gradient(90deg, {PRIMARY} 0%, {SECONDARY} 75%, {ACCENT} 100%);
-        padding: 28px 32px;
-        border-radius: 18px;
+        background: linear-gradient(
+            135deg,
+            #1E293B 0%,
+            #334155 60%,
+            #FD5108 100% 
+        );
+        padding: 32px;
+        border-radius: 20px;
         color: white;
-        margin-bottom: 24px;
-        box-shadow: 0 8px 24px rgba(11,31,58,0.18);
-    }}
-
+        margin-bottom: 25px;
+        box-shadow: 0px 15px 40px rgba(0,0,0,0.15);
+    }
     .main-title {{
         font-size: 38px;
         font-weight: 800;
