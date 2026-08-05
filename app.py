@@ -800,9 +800,6 @@ with st.sidebar:
 
     st.markdown("---")
 
-    if st.button("Dashboard Ejecutivo"):
-        st.session_state.modulo = "Dashboard Ejecutivo"
-
     if st.button("SARC"):
         st.session_state.modulo = "SARC"
 
@@ -814,9 +811,12 @@ with st.sidebar:
 
     if st.button("SARO"):
         st.session_state.modulo = "SARO"
+
+    if st.button("Dashboard Ejecutivo"):
+        st.session_state.modulo = "Dashboard Ejecutivo"
     
     if st.button("Reportes"):
-        st.session_state.modulo = "Reportes"   # Nueva sección
+        st.session_state.modulo = "Reportes"  
     
     st.markdown("---")
     
