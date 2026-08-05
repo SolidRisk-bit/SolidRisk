@@ -401,18 +401,15 @@ def plot_layout(fig, title=None, yaxis_title=None):
 def professional_line(df, x, y, title, name, color=PRIMARY, reference=None, reference_label=None):
     fig = go.Figure()
 
-    fig.add_trace(
-        go.Scatter(
-            x=df[x],
-            y=df[y],
-            mode="lines+markers",
-            name=name,
-            line=dict(color=color, width=3),
-            marker=dict(size=7, color=color, line=dict(width=1, color="white")),
-            fill="tozeroy",
-            fillcolor="rgba(29,59,92,0.08)"
-        )
-    )
+    fig.add_trace(go.Scatter(
+        x=df[x],
+        y=df[y],
+        mode='lines+markers',
+        name=name,
+        line=dict(color=color, width=3, shape='spline', smoothing=1.3),
+        marker=dict(size=8, color=color, line=dict(width=2, color='white')),
+        hovertemplate='%{x|%b %Y}: %{y:.2f}%<extra></extra>'
+    ))
 
     if reference is not None:
         fig.add_hline(
@@ -423,8 +420,31 @@ def professional_line(df, x, y, title, name, color=PRIMARY, reference=None, refe
             annotation_position="top left"
         )
 
-    return plot_layout(fig, title=title, yaxis_title="%")
+    fig.update_layout(
+        title=dict(text=title, font=dict(size=20, family='Segoe UI', color=ACCENT), x=0),
+        xaxis=dict(
+            showgrid=False,
+            tickformat='%b %Y',
+            showline=True,
+            linecolor='#CCCCCC',
+            ticks='outside',
+            tickfont=dict(family='Segoe UI', size=12, color='#333')
+        ),
+        yaxis=dict(
+            title='%',
+            showgrid=True,
+            gridcolor='#F0F0F0',
+            zeroline=False,
+            tickfont=dict(family='Segoe UI', size=12, color='#333'),
+            rangemode='tozero'
+        ),
+        plot_bgcolor='white',
+        hovermode='x unified',
+        margin=dict(l=40, r=40, t=80, b=40),
+        font=dict(family='Segoe UI', size=12, color='#111')
+    )
 
+    return fig
 
 def professional_multi_line(df, x, series, title, yaxis_title="%"):
     fig = go.Figure()
