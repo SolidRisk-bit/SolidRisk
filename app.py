@@ -748,7 +748,7 @@ if not st.session_state.login:
     st.markdown(
         """
         <div class="login-box">
-            <div class="login-title">SOLIDRISK</div>
+            <div class="login-title">SolidRisk</div>
             <div class="login-subtitle">
                 Enterprise Risk Intelligence Platform<br>
                 By PwC - Analfe
@@ -785,7 +785,7 @@ with st.sidebar:
         """
         <div style="padding: 8px 4px 20px 4px;">
             <div style="font-size:28px;font-weight:800;letter-spacing:1.4px;">
-                SOLIDRISK
+                SolidRisk
             </div>
             <div style="font-size:12px;color:#D8E1EA;">
                 Enterprise Risk Intelligence Platform
@@ -830,7 +830,7 @@ with st.sidebar:
 if st.session_state.modulo == "Dashboard Ejecutivo":
 
     page_header(
-        "SOLIDRISK",
+        "SolidRisk",
         "Dashboard Ejecutivo de Indicadores Financieros, Cartera, Deterioro y Concentración"
     )
 
