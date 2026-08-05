@@ -41,242 +41,238 @@ GREEN = "#1B7F5C"
 RED = "#B42318"
 AMBER = "#B7791F"
 
-st.markdown(
-    f"""
-    <style>
+css = f"""
+<style>
 
-    .stApp {{
-        background-color: {BG};
-        color: {TEXT};
-        font-family: "Segoe UI", Arial, sans-serif;
-    }}
+.stApp {{
+    background-color: {BG};
+    color: {TEXT};
+    font-family: "Segoe UI", Arial, sans-serif;
+}}
 
-    section[data-testid="stSidebar"] {{
-        background: linear-gradient(180deg, {PRIMARY} 0%, {SECONDARY} 100%);
-    }}
+section[data-testid="stSidebar"] {{
+    background: linear-gradient(180deg, {PRIMARY} 0%, {SECONDARY} 100%);
+}}
 
-    section[data-testid="stSidebar"] * {{
-        color: white !important;
-    }}
+section[data-testid="stSidebar"] * {{
+    color: white !important;
+}}
 
-    .main-header {{
-        background: linear-gradient(
-            135deg,
-            #1E293B 0%,
-            #334155 60%,
-            #FD5108 100% 
-        );
-        padding: 32px;
-        border-radius: 20px;
-        color: white;
-        margin-bottom: 25px;
-        box-shadow: 0px 15px 40px rgba(0,0,0,0.15);
-    }}
-    .main-title {{
-        font-size: 38px;
-        font-weight: 800;
-        letter-spacing: 1.8px;
-        margin: 0;
-    }}
+.main-header {{
+    background: linear-gradient(
+        135deg,
+        #1E293B 0%,
+        #334155 60%,
+        #FD5108 100% 
+    );
+    padding: 32px;
+    border-radius: 20px;
+    color: white;
+    margin-bottom: 25px;
+    box-shadow: 0px 15px 40px rgba(0,0,0,0.15);
+}}
+.main-title {{
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    margin: 0;
+}}
 
-    .main-subtitle {{
-        font-size: 15px;
-        color: #DDE7F0;
-        margin-top: 6px;
-        margin-bottom: 0;
-    }}
+.main-subtitle {{
+    font-size: 15px;
+    color: #DDE7F0;
+    margin-top: 6px;
+    margin-bottom: 0;
+}}
 
-    .brand-line {{
-        font-size: 13px;
-        color: #F8C99B;
-        margin-top: 10px;
-        font-weight: 600;
-    }}
+.brand-line {{
+    font-size: 13px;
+    color: #F8C99B;
+    margin-top: 10px;
+    font-weight: 600;
+}}
 
-    .login-box {{
-        background-color: white;
-        padding: 34px;
-        border-radius: 20px;
-        box-shadow: 0 12px 34px rgba(11,31,58,0.15);
-        border: 1px solid {BORDER};
-        max-width: 480px;
-        margin: 45px auto 10px auto;
-    }}
+.login-box {{
+    background-color: white;
+    padding: 34px;
+    border-radius: 20px;
+    box-shadow: 0 12px 34px rgba(11,31,58,0.15);
+    border: 1px solid {BORDER};
+    max-width: 480px;
+    margin: 45px auto 10px auto;
+}}
 
-    .login-title {{
-        font-size: 34px;
-        font-weight: 800;
-        color: {PRIMARY};
-        text-align: center;
-        letter-spacing: 1.6px;
-        margin-bottom: 4px;
-    }}
+.login-title {{
+    font-size: 34px;
+    font-weight: 800;
+    color: {PRIMARY};
+    text-align: center;
+    letter-spacing: 1.6px;
+    margin-bottom: 4px;
+}}
 
-    .login-subtitle {{
-        text-align: center;
-        color: {MUTED};
-        font-size: 14px;
-        margin-bottom: 26px;
-    }}
+.login-subtitle {{
+    text-align: center;
+    color: {MUTED};
+    font-size: 14px;
+    margin-bottom: 26px;
+}}
 
-    .module-card {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 18px;
-        padding: 24px;
-        min-height: 155px;
-        box-shadow: 0 6px 18px rgba(11,31,58,0.08);
-        border-top: 5px solid {ACCENT};
-        transition: all 0.2s ease-in-out;
-    }}
+.module-card {{
+    background-color: white;
+    border: 1px solid {BORDER};
+    border-radius: 18px;
+    padding: 24px;
+    min-height: 155px;
+    box-shadow: 0 6px 18px rgba(11,31,58,0.08);
+    border-top: 5px solid {ACCENT};
+    transition: all 0.2s ease-in-out;
+}}
 
-    .module-card:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 10px 28px rgba(11,31,58,0.14);
-    }}
+.module-card:hover {{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(11,31,58,0.14);
+}}
 
-    .module-title {{
-        font-size: 22px;
-        font-weight: 800;
-        color: {PRIMARY};
-        margin-bottom: 8px;
-    }}
+.module-title {{
+    font-size: 22px;
+    font-weight: 800;
+    color: {PRIMARY};
+    margin-bottom: 8px;
+}}
 
-    .module-text {{
-        font-size: 14px;
-        color: {MUTED};
-        line-height: 1.45;
-    }}
+.module-text {{
+    font-size: 14px;
+    color: {MUTED};
+    line-height: 1.45;
+}}
 
-    .section-card {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 18px;
-        padding: 22px;
-        box-shadow: 0 6px 18px rgba(11,31,58,0.06);
-        margin-bottom: 18px;
-    }}
-
-   css = """
-.kpi-card {
-    background: white;
+.section-card {{
+    background-color: white;
+    border: 1px solid {BORDER};
     border-radius: 18px;
     padding: 22px;
-    border: none;
-    box-shadow: 0px 8px 25px rgba(0,0,0,0.07);
-    border-top: 5px solid #FD5108;
-    transition: all .25s ease;
-}
+    box-shadow: 0 6px 18px rgba(11,31,58,0.06);
+    margin-bottom: 18px;
+}}
 
-.kpi-card:hover {
+.kpi-card{{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    border:none;
+    box-shadow:0px 8px 25px rgba(0,0,0,0.07);
+    border-top:5px solid #FD5108;
+    transition:all .25s ease;
+}}
+
+.kpi-card:hover {{
     transform: translateY(-4px);
-    box-shadow: 0px 12px 32px rgba(0,0,0,0.08);
     transition: all .25s ease;
-}
+}}
+
+.kpi-value {{
+    font-size: 29px;
+    color: {PRIMARY};
+    font-weight: 800;
+    margin-top: 8px;
+}}
+
+.kpi-label {{
+    font-size: 12px;
+    color: {MUTED};
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+}}
+
+.kpi-note {{
+    font-size: 12px;
+    color: {MUTED};
+    margin-top: 4px;
+}}
+
+.status-normal {{
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: rgba(27,127,92,0.12);
+    color: {GREEN};
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 8px;
+}}
+
+.status-warning {{
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: rgba(183,121,31,0.12);
+    color: {AMBER};
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 8px;
+}}
+
+.status-critical {{
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: rgba(180,35,24,0.12);
+    color: {RED};
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 8px;
+}}
+
+.footer {{
+    text-align:center;
+    color:{MUTED};
+    font-size:12px;
+    margin-top:36px;
+    padding-top:18px;
+    border-top:1px solid {BORDER};
+}}
+
+div.stButton > button {{
+    width: 100%;
+    background-color: {PRIMARY};
+    color: white;
+    border-radius: 12px;
+    border: 1px solid {PRIMARY};
+    padding: 0.65rem 1rem;
+    font-weight: 700;
+    font-size: 15px;
+}}
+
+div.stButton > button:hover {{
+    background-color: {ACCENT};
+    color: white;
+    border: 1px solid {ACCENT};
+}}
+
+.stTabs [data-baseweb="tab-list"] {{
+    gap: 8px;
+}}
+
+.stTabs [data-baseweb="tab"] {{
+    background-color: white;
+    border: 1px solid {BORDER};
+    border-radius: 12px 12px 0 0;
+    padding: 12px 18px;
+    color: {PRIMARY};
+    font-weight: 700;
+}}
+
+.stTabs [aria-selected="true"] {{
+    border-top: 4px solid {ACCENT};
+    color: {PRIMARY};
+}}
+
+</style>
 """
 
-    .kpi-label {{
-        font-size: 12px;
-        color: {MUTED};
-        text-transform: uppercase;
-        font-weight: 700;
-        letter-spacing: 0.6px;
-    }}
-
-    .kpi-value {{
-        font-size: 29px;
-        color: {PRIMARY};
-        font-weight: 800;
-        margin-top: 8px;
-    }}
-
-    .kpi-note {{
-        font-size: 12px;
-        color: {MUTED};
-        margin-top: 4px;
-    }}
-
-    .status-normal {{
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: rgba(27,127,92,0.12);
-        color: {GREEN};
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-top: 8px;
-    }}
-
-    .status-warning {{
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: rgba(183,121,31,0.12);
-        color: {AMBER};
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-top: 8px;
-    }}
-
-    .status-critical {{
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: rgba(180,35,24,0.12);
-        color: {RED};
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-top: 8px;
-    }}
-
-    .footer {{
-        text-align:center;
-        color:{MUTED};
-        font-size:12px;
-        margin-top:36px;
-        padding-top:18px;
-        border-top:1px solid {BORDER};
-    }}
-
-    div.stButton > button {{
-        width: 100%;
-        background-color: {PRIMARY};
-        color: white;
-        border-radius: 12px;
-        border: 1px solid {PRIMARY};
-        padding: 0.65rem 1rem;
-        font-weight: 700;
-        font-size: 15px;
-    }}
-
-    div.stButton > button:hover {{
-        background-color: {ACCENT};
-        color: white;
-        border: 1px solid {ACCENT};
-    }}
-
-    .stTabs [data-baseweb="tab-list"] {{
-        gap: 8px;
-    }}
-
-    .stTabs [data-baseweb="tab"] {{
-        background-color: white;
-        border: 1px solid {BORDER};
-        border-radius: 12px 12px 0 0;
-        padding: 12px 18px;
-        color: {PRIMARY};
-        font-weight: 700;
-    }}
-
-    .stTabs [aria-selected="true"] {{
-        border-top: 4px solid {ACCENT};
-        color: {PRIMARY};
-    }}
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown(css, unsafe_allow_html=True)
 
 # =====================================================
 # FUNCIONES DE UTILIDAD
@@ -491,6 +487,8 @@ def professional_bar(df, x, y, title, yaxis_title="%"):
 
     fig.update_layout(showlegend=False)
     return plot_layout(fig, title=title, yaxis_title=yaxis_title)
+
+
 
 
 # =====================================================
