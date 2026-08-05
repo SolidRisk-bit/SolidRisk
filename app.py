@@ -1,83 +1,333 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
 import plotly.graph_objects as go
+import plotly.express as px
 import os
 
 # =====================================================
-# CONFIGURACIÓN GENERAL
+# CONFIGURACION GENERAL
 # =====================================================
 
 st.set_page_config(
     page_title="SolidRisk",
-    page_icon="🛡️",
-    layout="wide"
+    page_icon="SR",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # =====================================================
-# ESTILOS CORPORATIVOS
+# PALETA Y ESTILOS CORPORATIVOS
 # =====================================================
 
-st.markdown("""
-<style>
+PRIMARY = "#0B1F3A"
+SECONDARY = "#1D3B5C"
+ACCENT = "#F58220"
+BG = "#F5F7FA"
+CARD = "#FFFFFF"
+TEXT = "#1F2937"
+MUTED = "#6B7280"
+BORDER = "#E5E7EB"
+GREEN = "#1B7F5C"
+RED = "#B42318"
+AMBER = "#B7791F"
 
-.stApp {
-    background-color: #f4f6f9;
-}
+st.markdown(
+    f"""
+    <style>
 
-.titulo {
-    text-align:center;
-    font-size:58px;
-    font-weight:bold;
-    color:#0B3C5D;
-    margin-bottom:0;
-}
+    .stApp {{
+        background-color: {BG};
+        color: {TEXT};
+        font-family: "Segoe UI", Arial, sans-serif;
+    }}
 
-.subtitulo {
-    text-align:center;
-    font-size:20px;
-    color:#F37021;
-    margin-bottom:20px;
-}
+    section[data-testid="stSidebar"] {{
+        background: linear-gradient(180deg, {PRIMARY} 0%, {SECONDARY} 100%);
+    }}
 
-.footer {
-    text-align:center;
-    color:gray;
-    margin-top:50px;
-    font-size:14px;
-}
+    section[data-testid="stSidebar"] * {{
+        color: white !important;
+    }}
 
-.card {
-    background-color:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0px 4px 14px rgba(0,0,0,0.08);
-    border-left:6px solid #F37021;
-    margin-bottom:16px;
-}
+    .main-header {{
+        background: linear-gradient(90deg, {PRIMARY} 0%, {SECONDARY} 75%, {ACCENT} 100%);
+        padding: 28px 32px;
+        border-radius: 18px;
+        color: white;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 24px rgba(11,31,58,0.18);
+    }}
 
-.stButton > button {
-    width:100%;
-    border-radius:12px;
-    height:55px;
-    font-size:18px;
-    font-weight:bold;
-    background-color:#0B3C5D;
-    color:white;
-}
+    .main-title {{
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: 1.8px;
+        margin: 0;
+    }}
 
-.stButton > button:hover {
-    background-color:#F37021;
-    color:white;
-}
+    .main-subtitle {{
+        font-size: 15px;
+        color: #DDE7F0;
+        margin-top: 6px;
+        margin-bottom: 0;
+    }}
 
-</style>
-""", unsafe_allow_html=True)
+    .brand-line {{
+        font-size: 13px;
+        color: #F8C99B;
+        margin-top: 10px;
+        font-weight: 600;
+    }}
+
+    .login-box {{
+        background-color: white;
+        padding: 34px;
+        border-radius: 20px;
+        box-shadow: 0 12px 34px rgba(11,31,58,0.15);
+        border: 1px solid {BORDER};
+        max-width: 480px;
+        margin: 45px auto 10px auto;
+    }}
+
+    .login-title {{
+        font-size: 34px;
+        font-weight: 800;
+        color: {PRIMARY};
+        text-align: center;
+        letter-spacing: 1.6px;
+        margin-bottom: 4px;
+    }}
+
+    .login-subtitle {{
+        text-align: center;
+        color: {MUTED};
+        font-size: 14px;
+        margin-bottom: 26px;
+    }}
+
+    .module-card {{
+        background-color: white;
+        border: 1px solid {BORDER};
+        border-radius: 18px;
+        padding: 24px;
+        min-height: 155px;
+        box-shadow: 0 6px 18px rgba(11,31,58,0.08);
+        border-top: 5px solid {ACCENT};
+        transition: all 0.2s ease-in-out;
+    }}
+
+    .module-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(11,31,58,0.14);
+    }}
+
+    .module-title {{
+        font-size: 22px;
+        font-weight: 800;
+        color: {PRIMARY};
+        margin-bottom: 8px;
+    }}
+
+    .module-text {{
+        font-size: 14px;
+        color: {MUTED};
+        line-height: 1.45;
+    }}
+
+    .section-card {{
+        background-color: white;
+        border: 1px solid {BORDER};
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 6px 18px rgba(11,31,58,0.06);
+        margin-bottom: 18px;
+    }}
+
+    .kpi-card {{
+        background-color: white;
+        border: 1px solid {BORDER};
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 6px 18px rgba(11,31,58,0.06);
+        border-left: 5px solid {ACCENT};
+        min-height: 120px;
+    }}
+
+    .kpi-label {{
+        font-size: 12px;
+        color: {MUTED};
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+    }}
+
+    .kpi-value {{
+        font-size: 29px;
+        color: {PRIMARY};
+        font-weight: 800;
+        margin-top: 8px;
+    }}
+
+    .kpi-note {{
+        font-size: 12px;
+        color: {MUTED};
+        margin-top: 4px;
+    }}
+
+    .status-normal {{
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: rgba(27,127,92,0.12);
+        color: {GREEN};
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 8px;
+    }}
+
+    .status-warning {{
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: rgba(183,121,31,0.12);
+        color: {AMBER};
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 8px;
+    }}
+
+    .status-critical {{
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: rgba(180,35,24,0.12);
+        color: {RED};
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 8px;
+    }}
+
+    .footer {{
+        text-align:center;
+        color:{MUTED};
+        font-size:12px;
+        margin-top:36px;
+        padding-top:18px;
+        border-top:1px solid {BORDER};
+    }}
+
+    div.stButton > button {{
+        width: 100%;
+        background-color: {PRIMARY};
+        color: white;
+        border-radius: 12px;
+        border: 1px solid {PRIMARY};
+        padding: 0.65rem 1rem;
+        font-weight: 700;
+        font-size: 15px;
+    }}
+
+    div.stButton > button:hover {{
+        background-color: {ACCENT};
+        color: white;
+        border: 1px solid {ACCENT};
+    }}
+
+    .stTabs [data-baseweb="tab-list"] {{
+        gap: 8px;
+    }}
+
+    .stTabs [data-baseweb="tab"] {{
+        background-color: white;
+        border: 1px solid {BORDER};
+        border-radius: 12px 12px 0 0;
+        padding: 12px 18px;
+        color: {PRIMARY};
+        font-weight: 700;
+    }}
+
+    .stTabs [aria-selected="true"] {{
+        border-top: 4px solid {ACCENT};
+        color: {PRIMARY};
+    }}
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # =====================================================
-# FUNCIONES AUXILIARES
+# FUNCIONES DE UTILIDAD
 # =====================================================
+
+def format_cop_millions(value):
+    try:
+        value = float(value)
+        return f"${value:,.0f}"
+    except Exception:
+        return "n/d"
+
+
+def format_pct(value):
+    try:
+        if pd.isna(value) or np.isinf(value):
+            return "n/d"
+        return f"{float(value):,.2f}%"
+    except Exception:
+        return "n/d"
+
+
+def status_badge(value, green_max=None, amber_max=None, inverse=False):
+    """
+    Si inverse=False: menor es mejor.
+    Si inverse=True: mayor es mejor.
+    """
+    try:
+        v = float(value)
+    except Exception:
+        return "<span class='status-warning'>Sin clasificación</span>"
+
+    if inverse:
+        if green_max is not None and v >= green_max:
+            return "<span class='status-normal'>Adecuado</span>"
+        if amber_max is not None and v >= amber_max:
+            return "<span class='status-warning'>Observación</span>"
+        return "<span class='status-critical'>Crítico</span>"
+
+    if green_max is not None and v <= green_max:
+        return "<span class='status-normal'>Adecuado</span>"
+    if amber_max is not None and v <= amber_max:
+        return "<span class='status-warning'>Observación</span>"
+    return "<span class='status-critical'>Crítico</span>"
+
+
+def kpi_card(label, value, note="", badge_html=""):
+    st.markdown(
+        f"""
+        <div class="kpi-card">
+            <div class="kpi-label">{label}</div>
+            <div class="kpi-value">{value}</div>
+            <div class="kpi-note">{note}</div>
+            {badge_html}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+def page_header(title, subtitle):
+    st.markdown(
+        f"""
+        <div class="main-header">
+            <p class="main-title">{title}</p>
+            <p class="main-subtitle">{subtitle}</p>
+            <p class="brand-line">By PwC - Analfe</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 def safe_sum(df, codes):
     existing_codes = [c for c in codes if c in df.columns]
@@ -92,22 +342,153 @@ def limpiar_valor(x):
     return x
 
 
+def plot_layout(fig, title=None, yaxis_title=None):
+    fig.update_layout(
+        template="plotly_white",
+        height=430,
+        margin=dict(l=20, r=20, t=70, b=40),
+        title=dict(
+            text=title,
+            font=dict(size=19, color=PRIMARY, family="Segoe UI"),
+            x=0.02,
+            xanchor="left"
+        ) if title else None,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+            font=dict(size=12, color=TEXT)
+        ),
+        hovermode="x unified",
+        paper_bgcolor="white",
+        plot_bgcolor="white",
+        font=dict(color=TEXT, family="Segoe UI")
+    )
+    fig.update_xaxes(
+        showgrid=False,
+        linecolor=BORDER,
+        tickfont=dict(size=11, color=MUTED)
+    )
+    fig.update_yaxes(
+        gridcolor="#EEF2F6",
+        linecolor=BORDER,
+        tickfont=dict(size=11, color=MUTED),
+        title=yaxis_title
+    )
+    return fig
+
+
+def professional_line(df, x, y, title, name, color=PRIMARY, reference=None, reference_label=None):
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Scatter(
+            x=df[x],
+            y=df[y],
+            mode="lines+markers",
+            name=name,
+            line=dict(color=color, width=3),
+            marker=dict(size=7, color=color, line=dict(width=1, color="white")),
+            fill="tozeroy",
+            fillcolor="rgba(29,59,92,0.08)"
+        )
+    )
+
+    if reference is not None:
+        fig.add_hline(
+            y=reference,
+            line_dash="dash",
+            line_color=ACCENT,
+            annotation_text=reference_label if reference_label else f"Referencia {reference}",
+            annotation_position="top left"
+        )
+
+    return plot_layout(fig, title=title, yaxis_title="%")
+
+
+def professional_multi_line(df, x, series, title, yaxis_title="%"):
+    fig = go.Figure()
+
+    colors = [PRIMARY, ACCENT, "#6B7280", GREEN, RED, AMBER]
+
+    for i, item in enumerate(series):
+        fig.add_trace(
+            go.Scatter(
+                x=df[x],
+                y=df[item["col"]],
+                mode="lines+markers",
+                name=item["name"],
+                line=dict(color=colors[i % len(colors)], width=3),
+                marker=dict(size=7, line=dict(width=1, color="white"))
+            )
+        )
+
+    return plot_layout(fig, title=title, yaxis_title=yaxis_title)
+
+
+def professional_stacked_bar(df, x, columns, title, yaxis_title="%"):
+    fig = go.Figure()
+
+    colors = [PRIMARY, ACCENT, "#6B7280", "#9CA3AF", "#CBD5E1", GREEN, AMBER]
+
+    for i, col in enumerate(columns):
+        fig.add_trace(
+            go.Bar(
+                x=df[x],
+                y=df[col],
+                name=col,
+                marker_color=colors[i % len(colors)],
+                hovertemplate="%{x}<br>" + col + ": %{y:.2f}%<extra></extra>"
+            )
+        )
+
+    fig.update_layout(barmode="stack")
+    return plot_layout(fig, title=title, yaxis_title=yaxis_title)
+
+
+def professional_bar(df, x, y, title, yaxis_title="%"):
+    fig = px.bar(
+        df,
+        x=x,
+        y=y,
+        color=y,
+        color_continuous_scale=[
+            [0.0, PRIMARY],
+            [0.5, SECONDARY],
+            [1.0, ACCENT]
+        ],
+        text_auto=".2f"
+    )
+
+    fig.update_traces(
+        textposition="outside",
+        marker_line_color="white",
+        marker_line_width=0.8
+    )
+
+    fig.update_layout(showlegend=False)
+    return plot_layout(fig, title=title, yaxis_title=yaxis_title)
+
+
+# =====================================================
+# PROCESAMIENTO DE EXCEL BL
+# =====================================================
+
 def procesar_balance_excel(archivo_excel):
-    """
-    Procesa el archivo Excel tipo INDICADORES FEMP 2025.xlsm.
-    Lee la hoja BL y arma la tabla pivot_bl.
-    """
+    try:
+        df_raw = pd.read_excel(
+            archivo_excel,
+            sheet_name="BL",
+            header=None,
+            engine="openpyxl"
+        )
+    except Exception as e:
+        st.error(f"No fue posible leer la hoja BL del archivo. Detalle: {e}")
+        return None
 
-    df_raw = pd.read_excel(
-        archivo_excel,
-        sheet_name="BL",
-        header=None,
-        engine="openpyxl"
-    )
-
-    df_raw = df_raw.apply(
-        lambda col: col.map(limpiar_valor)
-    )
+    df_raw = df_raw.apply(lambda col: col.map(limpiar_valor))
 
     data = []
     current_period = None
@@ -126,13 +507,8 @@ def procesar_balance_excel(archivo_excel):
         val_col1 = row.iloc[1] if len(row) > 1 else None
 
         if pd.notna(val_col0) and pd.isna(val_col1):
-
             val_str = str(val_col0).strip()
-            parsed_date = pd.to_datetime(
-                val_str,
-                errors="coerce",
-                dayfirst=True
-            )
+            parsed_date = pd.to_datetime(val_str, errors="coerce", dayfirst=True)
 
             if pd.notna(parsed_date):
                 current_period = parsed_date.strftime("%Y-%m-%d")
@@ -166,12 +542,13 @@ def procesar_balance_excel(archivo_excel):
                 nuesal_val = pd.to_numeric(val_nuesal, errors="coerce")
 
                 if not pd.isna(nuesal_val):
-
-                    data.append({
-                        "FECHA": current_period,
-                        "CÓDIGO CONTABLE": codigo_str,
-                        "nuesal": nuesal_val
-                    })
+                    data.append(
+                        {
+                            "FECHA": current_period,
+                            "CODIGO_CONTABLE": codigo_str,
+                            "nuesal": nuesal_val
+                        }
+                    )
 
     df_base = pd.DataFrame(data)
 
@@ -186,29 +563,29 @@ def procesar_balance_excel(archivo_excel):
 
     pivot_bl = df_base.pivot_table(
         index="FECHA",
-        columns="CÓDIGO CONTABLE",
+        columns="CODIGO_CONTABLE",
         values="nuesal",
         aggfunc="sum"
     ).fillna(0)
 
-    fecha_orden = (
+    fechas = (
         df_base[["FECHA", "FECHA_DT"]]
         .drop_duplicates()
         .set_index("FECHA")
     )
 
-    pivot_bl = pivot_bl.join(fecha_orden, how="left")
+    pivot_bl = pivot_bl.join(fechas, how="left")
     pivot_bl = pivot_bl.sort_values("FECHA_DT")
     pivot_bl = pivot_bl.drop(columns=["FECHA_DT"], errors="ignore")
 
     return pivot_bl
 
 
-def leer_csv_subido(archivo):
-    """
-    Lee CSV de cartera con múltiples separadores y encodings.
-    """
+# =====================================================
+# PROCESAMIENTO DE CSV CARTERA
+# =====================================================
 
+def leer_csv_subido(archivo):
     encodings = ["utf-8", "latin1", "cp1252"]
 
     for enc in encodings:
@@ -230,11 +607,6 @@ def leer_csv_subido(archivo):
 
 
 def procesar_archivos_cartera(archivos_csv):
-    """
-    Procesa múltiples CSV de cartera.
-    Cada archivo debería tener un nombre tipo 032026.csv.
-    """
-
     if not archivos_csv:
         return None
 
@@ -259,7 +631,6 @@ def procesar_archivos_cartera(archivos_csv):
     dataframes = []
 
     for archivo in archivos_csv:
-
         nombre_archivo = archivo.name
         fecha_str = os.path.splitext(nombre_archivo)[0]
 
@@ -279,33 +650,32 @@ def procesar_archivos_cartera(archivos_csv):
         if not cols_presentes:
             continue
 
-        df_procesado = df[cols_presentes].copy()
-        df_procesado["FECHA_CORTE"] = fecha_eval
-
-        dataframes.append(df_procesado)
+        temp = df[cols_presentes].copy()
+        temp["FECHA_CORTE"] = fecha_eval
+        dataframes.append(temp)
 
     if not dataframes:
         return None
 
-    cartera_total = pd.concat(dataframes, ignore_index=True)
+    cartera = pd.concat(dataframes, ignore_index=True)
 
-    columnas_necesarias = [
+    columnas_base = [
         "NroCredito", "NIT", "CodigoContable",
         "Morosidad", "NITPatronal", "NombrePatronal"
     ]
 
-    for col in columnas_necesarias:
-        if col not in cartera_total.columns:
-            cartera_total[col] = np.nan
+    for col in columnas_base:
+        if col not in cartera.columns:
+            cartera[col] = np.nan
 
-    cartera_total = cartera_total[
+    cartera = cartera[
         ~(
-            cartera_total["NroCredito"].isna()
-            & cartera_total["NIT"].isna()
-            & cartera_total["CodigoContable"].isna()
-            & cartera_total["Morosidad"].isna()
-            & cartera_total["NITPatronal"].isna()
-            & cartera_total["NombrePatronal"].isna()
+            cartera["NroCredito"].isna()
+            & cartera["NIT"].isna()
+            & cartera["CodigoContable"].isna()
+            & cartera["Morosidad"].isna()
+            & cartera["NITPatronal"].isna()
+            & cartera["NombrePatronal"].isna()
         )
     ]
 
@@ -315,91 +685,39 @@ def procesar_archivos_cartera(archivos_csv):
     ]
 
     for col in columnas_numericas:
-        if col not in cartera_total.columns:
-            cartera_total[col] = 0
+        if col not in cartera.columns:
+            cartera[col] = 0
 
-        cartera_total[col] = (
-            cartera_total[col]
+        cartera[col] = (
+            cartera[col]
             .astype(str)
             .str.replace("$", "", regex=False)
             .str.replace(",", ".", regex=False)
             .str.replace(" ", "", regex=False)
         )
 
-        cartera_total[col] = pd.to_numeric(
-            cartera_total[col],
-            errors="coerce"
-        ).fillna(0)
+        cartera[col] = pd.to_numeric(cartera[col], errors="coerce").fillna(0)
 
-    cartera_total["FECHA_CORTE"] = pd.to_datetime(
-        cartera_total["FECHA_CORTE"],
-        errors="coerce"
-    )
+    cartera["FECHA_CORTE"] = pd.to_datetime(cartera["FECHA_CORTE"], errors="coerce")
 
-    cartera_total["NombrePatronal"] = (
-        cartera_total["NombrePatronal"]
+    cartera["NombrePatronal"] = (
+        cartera["NombrePatronal"]
         .astype(str)
         .str.strip()
     )
 
-    return cartera_total
-
-
-def grafico_linea(df, x, y, titulo, color="#0B3C5D"):
-    fig = px.line(
-        df,
-        x=x,
-        y=y,
-        markers=True,
-        title=titulo
-    )
-    fig.update_traces(
-        line=dict(color=color, width=3),
-        marker=dict(size=8)
-    )
-    fig.update_layout(
-        template="plotly_white",
-        title_font=dict(size=20, color="#0B3C5D"),
-        hovermode="x unified",
-        height=420
-    )
-    return fig
-
-
-def grafico_barras_apiladas(df, x, y_cols, titulo):
-    fig = go.Figure()
-
-    colores = ["#0B3C5D", "#F37021", "#6C757D", "#00A6A6", "#A23E48"]
-
-    for i, col in enumerate(y_cols):
-        fig.add_trace(go.Bar(
-            x=df[x],
-            y=df[col],
-            name=col,
-            marker_color=colores[i % len(colores)]
-        ))
-
-    fig.update_layout(
-        barmode="stack",
-        template="plotly_white",
-        title=titulo,
-        title_font=dict(size=20, color="#0B3C5D"),
-        height=420,
-        hovermode="x unified"
-    )
-
-    return fig
+    return cartera
 
 
 # =====================================================
-# VARIABLES DE SESIÓN
+# SESSION STATE
 # =====================================================
 
 if "login" not in st.session_state:
     st.session_state.login = False
 
 if "modulo" not in st.session_state:
-    st.session_state.modulo = None
+    st.session_state.modulo = "Dashboard Ejecutivo"
 
 
 # =====================================================
@@ -409,154 +727,151 @@ if "modulo" not in st.session_state:
 if not st.session_state.login:
 
     st.markdown(
-        "<div class='titulo'>🛡️ SolidRisk</div>",
+        """
+        <div class="login-box">
+            <div class="login-title">SOLIDRISK</div>
+            <div class="login-subtitle">
+                Enterprise Risk Intelligence Platform<br>
+                By PwC - Analfe
+            </div>
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
-    st.markdown(
-        "<div class='subtitulo'>Plataforma Integral de Gestión de Riesgos</div>",
-        unsafe_allow_html=True
-    )
+    col_a, col_b, col_c = st.columns([1, 1.2, 1])
 
-    usuario = st.text_input("👤 Usuario")
-    password = st.text_input("🔒 Contraseña", type="password")
+    with col_b:
+        usuario = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
 
-    if st.button("Ingresar"):
+        if st.button("Ingresar"):
+            if usuario == "admin" and password == "1234":
+                st.session_state.login = True
+                st.session_state.modulo = "Dashboard Ejecutivo"
+                st.rerun()
+            else:
+                st.error("Credenciales incorrectas")
 
-        if usuario == "admin" and password == "1234":
-            st.session_state.login = True
-            st.rerun()
-        else:
-            st.error("❌ Credenciales incorrectas")
-
-    st.markdown(
-        "<div class='footer'>By PwC - Analfe</div>",
-        unsafe_allow_html=True
-    )
+    st.stop()
 
 
 # =====================================================
-# PLATAFORMA
+# SIDEBAR
 # =====================================================
 
-else:
-
-    with st.sidebar:
-
-        st.markdown("## 🛡️ SolidRisk")
-        st.markdown("By PwC - Analfe")
-        st.markdown("---")
-
-        if st.button("📊 Dashboard Ejecutivo"):
-            st.session_state.modulo = "Dashboard"
-
-        if st.button("🏦 SARC"):
-            st.session_state.modulo = "SARC"
-
-        if st.button("💧 SARL"):
-            st.session_state.modulo = "SARL"
-
-        if st.button("📈 SARM"):
-            st.session_state.modulo = "SARM"
-
-        if st.button("⚙️ SARO"):
-            st.session_state.modulo = "SARO"
-
-        st.markdown("---")
-
-        if st.button("🚪 Cerrar Sesión"):
-            st.session_state.login = False
-            st.session_state.modulo = None
-            st.rerun()
+with st.sidebar:
 
     st.markdown(
-        "<div class='titulo'>🛡️ SolidRisk</div>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<div class='subtitulo'>By PwC - Analfe</div>",
+        """
+        <div style="padding: 8px 4px 20px 4px;">
+            <div style="font-size:28px;font-weight:800;letter-spacing:1.4px;">
+                SOLIDRISK
+            </div>
+            <div style="font-size:12px;color:#D8E1EA;">
+                Enterprise Risk Intelligence Platform
+            </div>
+            <div style="font-size:12px;color:#F8C99B;margin-top:6px;">
+                By PwC - Analfe
+            </div>
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
     st.markdown("---")
 
-    # =====================================================
-    # DASHBOARD EJECUTIVO
-    # =====================================================
+    if st.button("Dashboard Ejecutivo"):
+        st.session_state.modulo = "Dashboard Ejecutivo"
 
-    if st.session_state.modulo == "Dashboard":
+    if st.button("SARC"):
+        st.session_state.modulo = "SARC"
 
-        st.markdown("## 📊 Dashboard Ejecutivo")
+    if st.button("SARL"):
+        st.session_state.modulo = "SARL"
 
-        st.markdown("""
-        <div class='card'>
-        En este módulo puedes cargar el archivo de indicadores financieros y, opcionalmente,
-        los archivos CSV de cartera. La plataforma procesará la información y generará
-        gráficos dinámicos de gestión financiera, cartera, deterioro, concentración,
-        liquidez y calidad crediticia.
+    if st.button("SARM"):
+        st.session_state.modulo = "SARM"
+
+    if st.button("SARO"):
+        st.session_state.modulo = "SARO"
+
+    st.markdown("---")
+
+    if st.button("Cerrar sesión"):
+        st.session_state.login = False
+        st.session_state.modulo = "Dashboard Ejecutivo"
+        st.rerun()
+
+
+# =====================================================
+# DASHBOARD EJECUTIVO
+# =====================================================
+
+if st.session_state.modulo == "Dashboard Ejecutivo":
+
+    page_header(
+        "SOLIDRISK",
+        "Dashboard Ejecutivo de Indicadores Financieros, Cartera, Deterioro y Concentración"
+    )
+
+    st.markdown(
+        """
+        <div class="section-card">
+            <b>Objetivo del módulo.</b> Este tablero permite cargar los insumos financieros y de cartera para generar una visión ejecutiva de la estructura de cartera, calidad crediticia, deterioro, cobertura, concentración y fondeo. 
+            El diseño está orientado a comités de riesgo, alta gerencia y miembros de junta directiva.
         </div>
-        """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
-        col_a, col_b = st.columns(2)
+    col_upload_1, col_upload_2 = st.columns(2)
 
-        with col_a:
-            archivo_excel = st.file_uploader(
-                "📂 Subir archivo Excel de indicadores",
-                type=["xlsx", "xlsm"]
-            )
+    with col_upload_1:
+        archivo_excel = st.file_uploader(
+            "Archivo Excel de indicadores financieros",
+            type=["xlsx", "xlsm"]
+        )
 
-        with col_b:
-            archivos_csv = st.file_uploader(
-                "📂 Subir archivos CSV de cartera",
-                type=["csv"],
-                accept_multiple_files=True
-            )
+    with col_upload_2:
+        archivos_csv = st.file_uploader(
+            "Archivos CSV de cartera, opcional",
+            type=["csv"],
+            accept_multiple_files=True
+        )
 
-        graficar = st.button("🚀 Graficar Dashboard")
+    col_btn_1, col_btn_2, col_btn_3 = st.columns([1, 1, 1])
 
-        if graficar:
+    with col_btn_2:
+        graficar = st.button("Generar visualización ejecutiva")
 
-            if archivo_excel is None:
-                st.error("Debes subir primero el archivo Excel de indicadores.")
+    if graficar:
+
+        if archivo_excel is None:
+            st.error("Debes cargar el archivo Excel de indicadores financieros.")
+            st.stop()
+
+        with st.spinner("Procesando información y generando tablero ejecutivo..."):
+
+            pivot_bl = procesar_balance_excel(archivo_excel)
+
+            if pivot_bl is None or pivot_bl.empty:
+                st.error("No fue posible procesar la hoja BL del archivo cargado.")
                 st.stop()
 
-            with st.spinner("Procesando información financiera..."):
+            cartera = procesar_archivos_cartera(archivos_csv)
 
-                pivot_bl = procesar_balance_excel(archivo_excel)
-
-                if pivot_bl is None or pivot_bl.empty:
-                    st.error("No fue posible procesar la hoja BL del archivo Excel.")
-                    st.stop()
-
-                cartera = procesar_archivos_cartera(archivos_csv)
-
-            st.success("Información procesada correctamente.")
-
-            st.markdown("### Resumen de carga")
-
-            c1, c2, c3 = st.columns(3)
-
-            c1.metric("Periodos BL", pivot_bl.shape[0])
-            c2.metric("Códigos contables", pivot_bl.shape[1])
-
-            if cartera is not None:
-                c3.metric("Registros cartera", f"{len(cartera):,}")
-            else:
-                c3.metric("Registros cartera", "No cargado")
+            # =====================================================
+            # CALCULOS DESDE BL
+            # =====================================================
 
             periodos = pivot_bl.index.astype(str).tolist()
 
-            # ==========================================
-            # CÁLCULOS DESDE BALANCE BL
-            # ==========================================
-
-            cods_g1_num = [
-                "1120", "12", "13", "141105",
-                "141110", "144205", "144210"
+            cods_cartera_activos = [
+                "1120", "12", "13", "141105", "141110", "144205", "144210"
             ]
 
-            cartera_g1 = safe_sum(pivot_bl, cods_g1_num)
+            cartera_g1 = safe_sum(pivot_bl, cods_cartera_activos)
 
             columna_activos = [
                 c for c in pivot_bl.columns
@@ -585,32 +900,24 @@ else:
                 depositos_g1 = safe_sum(pivot_bl, ["21"])
 
             cods_cartera_total = [
-                "1120", "13", "141105",
-                "141110", "144205", "144210"
+                "1120", "13", "141105", "141110", "144205", "144210"
             ] + [
-                c for c in pivot_bl.columns
-                if str(c).startswith("12")
+                c for c in pivot_bl.columns if str(c).startswith("12")
             ]
 
             cartera_total_bl = safe_sum(pivot_bl, cods_cartera_total)
 
-            crec_mensual = cartera_total_bl.pct_change(1) * 100
-            crec_anual = cartera_total_bl.pct_change(12) * 100
+            crecimiento_mensual = cartera_total_bl.pct_change(1) * 100
+            crecimiento_anual = cartera_total_bl.pct_change(12) * 100
 
-            cods_14 = [
-                c for c in pivot_bl.columns
-                if str(c).startswith("14")
-            ]
+            cods_14 = [c for c in pivot_bl.columns if str(c).startswith("14")]
 
             cartera_bruta = safe_sum(pivot_bl, cods_14) + safe_sum(
                 pivot_bl,
                 ["146805", "146810"]
             )
 
-            cods_1411 = [
-                c for c in pivot_bl.columns
-                if str(c).startswith("1411")
-            ]
+            cods_1411 = [c for c in pivot_bl.columns if str(c).startswith("1411")]
 
             cartera_libranza = safe_sum(pivot_bl, cods_1411)
             cartera_no_libranza = cartera_bruta - cartera_libranza
@@ -641,8 +948,7 @@ else:
             d_pct = np.where(total_cat != 0, cat_d / total_cat * 100, 0)
             e_pct = np.where(total_cat != 0, cat_e / total_cat * 100, 0)
 
-            diferencia_cartera = cartera_bruta.diff()
-            cartera_nueva = diferencia_cartera.clip(lower=0)
+            cartera_nueva = cartera_bruta.diff().clip(lower=0)
 
             new_share = np.where(
                 cartera_bruta != 0,
@@ -651,6 +957,7 @@ else:
             )
 
             provision_total = safe_sum(pivot_bl, ["146805", "146810"])
+
             cobertura_total = np.where(
                 cartera_total_bl != 0,
                 provision_total / cartera_total_bl * 100,
@@ -668,577 +975,597 @@ else:
                 0
             )
 
-            df_bl = pd.DataFrame({
-                "Periodo": periodos,
-                "Cartera_Activos": ratio_cartera_activos,
-                "Crecimiento_Mensual": crec_mensual.values,
-                "Crecimiento_Anual": crec_anual.values,
-                "Libranza": lib_share,
-                "No_Libranza": nolib_share,
-                "A": a_pct,
-                "B": b_pct,
-                "C": c_pct,
-                "D": d_pct,
-                "E": e_pct,
-                "Cartera_Nueva": new_share,
-                "Cobertura_Total": cobertura_total,
-                "Cobertura_Vencida": cobertura_vencida,
-                "Cartera_Total": cartera_total_bl.values,
-                "Activos": activos_g1.values,
-                "Depositos": depositos_g1.values
-            })
+            depositos_cartera = np.where(
+                cartera_total_bl != 0,
+                depositos_g1 / cartera_total_bl * 100,
+                0
+            )
 
-            ultimo = df_bl.iloc[-1]
+            df_bl = pd.DataFrame(
+                {
+                    "Periodo": periodos,
+                    "Cartera_Activos": ratio_cartera_activos,
+                    "Crecimiento_Mensual": crecimiento_mensual.values,
+                    "Crecimiento_Anual": crecimiento_anual.values,
+                    "Libranza": lib_share,
+                    "No_Libranza": nolib_share,
+                    "A": a_pct,
+                    "B": b_pct,
+                    "C": c_pct,
+                    "D": d_pct,
+                    "E": e_pct,
+                    "Cartera_Nueva": new_share,
+                    "Cobertura_Total": cobertura_total,
+                    "Cobertura_Vencida": cobertura_vencida,
+                    "Cartera_Total": cartera_total_bl.values,
+                    "Activos": activos_g1.values,
+                    "Depositos": depositos_g1.values,
+                    "Depositos_Cartera": depositos_cartera
+                }
+            )
 
-            st.markdown("### Indicadores principales")
+        st.success("Tablero generado correctamente.")
 
-            k1, k2, k3, k4, k5 = st.columns(5)
+        ultimo = df_bl.iloc[-1]
 
-            k1.metric(
+        st.markdown("### Resumen ejecutivo")
+
+        k1, k2, k3, k4, k5 = st.columns(5)
+
+        with k1:
+            kpi_card(
                 "Cartera / Activos",
-                f"{ultimo['Cartera_Activos']:.2f}%"
+                format_pct(ultimo["Cartera_Activos"]),
+                "Participación de cartera dentro del activo",
+                status_badge(ultimo["Cartera_Activos"], green_max=68, amber_max=75)
             )
 
-            k2.metric(
-                "Crec. Mensual Cartera",
-                f"{ultimo['Crecimiento_Mensual']:.2f}%"
-                if pd.notna(ultimo["Crecimiento_Mensual"])
-                else "n/d"
+        with k2:
+            kpi_card(
+                "Crecimiento anual cartera",
+                format_pct(ultimo["Crecimiento_Anual"]),
+                "Variación 12 meses",
+                status_badge(abs(ultimo["Crecimiento_Anual"]) if pd.notna(ultimo["Crecimiento_Anual"]) else 0, green_max=20, amber_max=35)
             )
 
-            k3.metric(
-                "Crec. Anual Cartera",
-                f"{ultimo['Crecimiento_Anual']:.2f}%"
-                if pd.notna(ultimo["Crecimiento_Anual"])
-                else "n/d"
+        with k3:
+            kpi_card(
+                "Cobertura total",
+                format_pct(ultimo["Cobertura_Total"]),
+                "Provisión sobre cartera total",
+                status_badge(ultimo["Cobertura_Total"], green_max=4, amber_max=8, inverse=True)
             )
 
-            k4.metric(
-                "Cobertura Total",
-                f"{ultimo['Cobertura_Total']:.2f}%"
+        with k4:
+            kpi_card(
+                "Cobertura vencida",
+                f"{ultimo['Cobertura_Vencida']:.2f}x",
+                "Provisión sobre cartera vencida",
+                status_badge(ultimo["Cobertura_Vencida"], green_max=1.0, amber_max=0.7, inverse=True)
             )
 
-            k5.metric(
-                "Cobertura Vencida",
-                f"{ultimo['Cobertura_Vencida']:.2f} veces"
+        with k5:
+            kpi_card(
+                "Depósitos / Cartera",
+                format_pct(ultimo["Depositos_Cartera"]),
+                "Cobertura de cartera con fondeo",
+                status_badge(ultimo["Depositos_Cartera"], green_max=100, amber_max=80, inverse=True)
             )
 
-            tab1, tab2, tab3, tab4, tab5 = st.tabs([
-                "1. Estructura de cartera",
-                "2. Calidad de cartera",
-                "3. Deterioro",
-                "4. Concentración",
-                "5. Liquidez y CAMEL"
-            ])
+        tab1, tab2, tab3, tab4, tab5 = st.tabs(
+            [
+                "Estructura de cartera",
+                "Calidad crediticia",
+                "Deterioro y provisiones",
+                "Concentración",
+                "Liquidez y fondeo"
+            ]
+        )
 
-            # ==========================================
-            # TAB 1
-            # ==========================================
+        # =====================================================
+        # TAB 1
+        # =====================================================
 
-            with tab1:
+        with tab1:
 
-                st.markdown("### Estructura de cartera")
+            st.markdown("#### Estructura de cartera")
 
-                col1, col2 = st.columns(2)
+            c1, c2 = st.columns(2)
 
-                with col1:
-
-                    fig_ca = grafico_linea(
-                        df_bl,
-                        "Periodo",
-                        "Cartera_Activos",
-                        "Cartera / Activos",
-                        "#0B3C5D"
-                    )
-
-                    fig_ca.add_hline(
-                        y=68,
-                        line_dash="dash",
-                        line_color="#F37021",
-                        annotation_text="Referencia 68%"
-                    )
-
-                    st.plotly_chart(fig_ca, use_container_width=True)
-
-                with col2:
-
-                    fig_crec = go.Figure()
-
-                    fig_crec.add_trace(go.Scatter(
-                        x=df_bl["Periodo"],
-                        y=df_bl["Crecimiento_Mensual"],
-                        mode="lines+markers",
-                        name="Crecimiento mensual",
-                        line=dict(color="#0B3C5D", width=3)
-                    ))
-
-                    fig_crec.add_trace(go.Scatter(
-                        x=df_bl["Periodo"],
-                        y=df_bl["Crecimiento_Anual"],
-                        mode="lines+markers",
-                        name="Crecimiento anual",
-                        line=dict(color="#F37021", width=3)
-                    ))
-
-                    fig_crec.update_layout(
-                        template="plotly_white",
-                        title="Crecimiento mensual y anual de cartera",
-                        height=420,
-                        hovermode="x unified"
-                    )
-
-                    st.plotly_chart(fig_crec, use_container_width=True)
-
-                col3, col4 = st.columns(2)
-
-                with col3:
-
-                    fig_mix = grafico_barras_apiladas(
-                        df_bl,
-                        "Periodo",
-                        ["Libranza", "No_Libranza"],
-                        "Composición Libranza vs No Libranza"
-                    )
-
-                    st.plotly_chart(fig_mix, use_container_width=True)
-
-                with col4:
-
-                    fig_cal = grafico_barras_apiladas(
-                        df_bl,
-                        "Periodo",
-                        ["A", "B", "C", "D", "E"],
-                        "Cartera por calificación"
-                    )
-
-                    st.plotly_chart(fig_cal, use_container_width=True)
-
-                fig_new = grafico_linea(
+            with c1:
+                fig = professional_line(
                     df_bl,
                     "Periodo",
-                    "Cartera_Nueva",
-                    "Cartera Nueva / Cartera Total",
-                    "#F37021"
+                    "Cartera_Activos",
+                    "Cartera sobre activos",
+                    "Cartera / activos",
+                    color=PRIMARY,
+                    reference=68,
+                    reference_label="Referencia 68%"
                 )
-
-                st.plotly_chart(fig_new, use_container_width=True)
-
-            # ==========================================
-            # TAB 2
-            # ==========================================
-
-            with tab2:
-
-                st.markdown("### Calidad de cartera")
-
-                if cartera is None:
-
-                    st.warning(
-                        "Para esta sección debes subir los archivos CSV de cartera."
-                    )
-
-                else:
-
-                    cartera["Saldo_Vencido_90"] = cartera["SaldoCapital"].where(
-                        cartera["Morosidad"] > 90,
-                        0
-                    )
-
-                    resumen_icv = cartera.groupby("FECHA_CORTE").agg(
-                        Saldo_Vencido_Total=("Saldo_Vencido_90", "sum"),
-                        Saldo_Capital_Total=("SaldoCapital", "sum")
-                    ).reset_index()
-
-                    resumen_icv["ICV_90_Total"] = (
-                        resumen_icv["Saldo_Vencido_Total"]
-                        / resumen_icv["Saldo_Capital_Total"]
-                    ) * 100
-
-                    fig_icv = px.line(
-                        resumen_icv,
-                        x="FECHA_CORTE",
-                        y="ICV_90_Total",
-                        markers=True,
-                        title="Evolución del ICV 90+"
-                    )
-
-                    fig_icv.add_hline(
-                        y=5,
-                        line_dash="dash",
-                        line_color="#F37021",
-                        annotation_text="Referencia 5%"
-                    )
-
-                    fig_icv.update_traces(
-                        line=dict(color="#0B3C5D", width=3)
-                    )
-
-                    fig_icv.update_layout(
-                        template="plotly_white",
-                        height=420,
-                        hovermode="x unified"
-                    )
-
-                    st.plotly_chart(fig_icv, use_container_width=True)
-
-                    patronales_no_libranza = [
-                        "ASOCIADO EXTERNO",
-                        "EX-ASOCIADOS"
-                    ]
-
-                    cartera["Tipo_Cartera"] = np.where(
-                        cartera["NombrePatronal"].isin(patronales_no_libranza),
-                        "No Libranza",
-                        "Libranza"
-                    )
-
-                    resumen_modalidad = cartera.groupby(
-                        ["FECHA_CORTE", "Tipo_Cartera"]
-                    ).agg(
-                        Saldo_Vencido_Total=("Saldo_Vencido_90", "sum"),
-                        Saldo_Capital_Total=("SaldoCapital", "sum")
-                    ).reset_index()
-
-                    resumen_modalidad["ICV_90"] = (
-                        resumen_modalidad["Saldo_Vencido_Total"]
-                        / resumen_modalidad["Saldo_Capital_Total"]
-                    ) * 100
-
-                    fig_icv_mod = px.line(
-                        resumen_modalidad,
-                        x="FECHA_CORTE",
-                        y="ICV_90",
-                        color="Tipo_Cartera",
-                        markers=True,
-                        title="ICV 90+ por modalidad"
-                    )
-
-                    fig_icv_mod.update_layout(
-                        template="plotly_white",
-                        height=420,
-                        hovermode="x unified"
-                    )
-
-                    st.plotly_chart(fig_icv_mod, use_container_width=True)
-
-                    rangos = [-np.inf, 30, 60, 90, 120, 150, 180, np.inf]
-                    etiquetas = ["A", "B", "C", "D", "D", "D", "E"]
-
-                    cartera["Calificacion_Mora"] = pd.cut(
-                        cartera["Morosidad"],
-                        bins=rangos,
-                        labels=etiquetas,
-                        right=True,
-                        include_lowest=True,
-                        ordered=False
-                    )
-
-                    comp_cal = cartera.groupby(
-                        ["FECHA_CORTE", "Calificacion_Mora"]
-                    )["SaldoCapital"].sum().reset_index()
-
-                    total_mes = comp_cal.groupby("FECHA_CORTE")[
-                        "SaldoCapital"
-                    ].transform("sum")
-
-                    comp_cal["Participacion"] = (
-                        comp_cal["SaldoCapital"]
-                        / total_mes
-                    ) * 100
-
-                    fig_rating = px.bar(
-                        comp_cal,
-                        x="FECHA_CORTE",
-                        y="Participacion",
-                        color="Calificacion_Mora",
-                        title="Composición de cartera por calificación",
-                    )
-
-                    fig_rating.update_layout(
-                        barmode="stack",
-                        template="plotly_white",
-                        height=420
-                    )
-
-                    st.plotly_chart(fig_rating, use_container_width=True)
-
-            # ==========================================
-            # TAB 3
-            # ==========================================
-
-            with tab3:
-
-                st.markdown("### Deterioro y provisiones")
-
-                col1, col2 = st.columns(2)
-
-                with col1:
-
-                    fig_cov_total = grafico_linea(
-                        df_bl,
-                        "Periodo",
-                        "Cobertura_Total",
-                        "Cobertura de Cartera Total",
-                        "#0B3C5D"
-                    )
-
-                    st.plotly_chart(fig_cov_total, use_container_width=True)
-
-                with col2:
-
-                    fig_cov_vencida = grafico_linea(
-                        df_bl,
-                        "Periodo",
-                        "Cobertura_Vencida",
-                        "Cobertura de Cartera Vencida",
-                        "#F37021"
-                    )
-
-                    st.plotly_chart(fig_cov_vencida, use_container_width=True)
-
-            # ==========================================
-            # TAB 4
-            # ==========================================
-
-            with tab4:
-
-                st.markdown("### Concentración")
-
-                if cartera is None:
-
-                    st.warning(
-                        "Para esta sección debes subir los archivos CSV de cartera."
-                    )
-
-                else:
-
-                    top_deudores = (
-                        cartera
-                        .groupby(["NIT"])["SaldoCapital"]
-                        .sum()
-                        .reset_index()
-                        .sort_values("SaldoCapital", ascending=False)
-                        .head(20)
-                    )
-
-                    total_cartera = cartera["SaldoCapital"].sum()
-
-                    top_deudores["Participacion"] = (
-                        top_deudores["SaldoCapital"]
-                        / total_cartera
-                    ) * 100
-
-                    fig_top_deudores = px.bar(
-                        top_deudores,
-                        x="NIT",
-                        y="Participacion",
-                        title="Top 20 deudores por concentración",
-                        color="Participacion",
-                        color_continuous_scale=["#0B3C5D", "#F37021"]
-                    )
-
-                    fig_top_deudores.update_layout(
-                        template="plotly_white",
-                        height=450
-                    )
-
-                    st.plotly_chart(
-                        fig_top_deudores,
-                        use_container_width=True
-                    )
-
-                    st.dataframe(
-                        top_deudores,
-                        use_container_width=True
-                    )
-
-                    if "AportesSociales" in cartera.columns:
-
-                        top_ahorro = (
-                            cartera
-                            .groupby(["NIT"])["AportesSociales"]
-                            .sum()
-                            .reset_index()
-                            .sort_values("AportesSociales", ascending=False)
-                            .head(20)
-                        )
-
-                        total_ahorro = cartera["AportesSociales"].sum()
-
-                        top_ahorro["Participacion"] = (
-                            top_ahorro["AportesSociales"]
-                            / total_ahorro
-                        ) * 100
-
-                        fig_top_ahorro = px.bar(
-                            top_ahorro,
-                            x="NIT",
-                            y="Participacion",
-                            title="Top 20 asociados por ahorro / aportes",
-                            color="Participacion",
-                            color_continuous_scale=["#0B3C5D", "#F37021"]
-                        )
-
-                        fig_top_ahorro.update_layout(
-                            template="plotly_white",
-                            height=450
-                        )
-
-                        st.plotly_chart(
-                            fig_top_ahorro,
-                            use_container_width=True
-                        )
-
-                        st.dataframe(
-                            top_ahorro,
-                            use_container_width=True
-                        )
-
-            # ==========================================
-            # TAB 5
-            # ==========================================
-
-            with tab5:
-
-                st.markdown("### Liquidez, fondeo y CAMEL")
-
-                df_liq = df_bl.copy()
-
-                df_liq["Depositos_Cartera"] = np.where(
-                    df_liq["Cartera_Total"] != 0,
-                    df_liq["Depositos"] / df_liq["Cartera_Total"] * 100,
+                st.plotly_chart(fig, use_container_width=True)
+
+            with c2:
+                fig = professional_multi_line(
+                    df_bl,
+                    "Periodo",
+                    [
+                        {"col": "Crecimiento_Mensual", "name": "Crecimiento mensual"},
+                        {"col": "Crecimiento_Anual", "name": "Crecimiento anual"}
+                    ],
+                    "Crecimiento de cartera",
+                    yaxis_title="%"
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            c3, c4 = st.columns(2)
+
+            with c3:
+                fig = professional_stacked_bar(
+                    df_bl,
+                    "Periodo",
+                    ["Libranza", "No_Libranza"],
+                    "Composición libranza y no libranza",
+                    yaxis_title="%"
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            with c4:
+                fig = professional_stacked_bar(
+                    df_bl,
+                    "Periodo",
+                    ["A", "B", "C", "D", "E"],
+                    "Composición de cartera por calificación",
+                    yaxis_title="%"
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            fig = professional_line(
+                df_bl,
+                "Periodo",
+                "Cartera_Nueva",
+                "Cartera nueva sobre cartera total",
+                "Cartera nueva",
+                color=ACCENT
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+        # =====================================================
+        # TAB 2
+        # =====================================================
+
+        with tab2:
+
+            st.markdown("#### Calidad crediticia")
+
+            if cartera is None:
+                st.warning("Para esta sección debes cargar archivos CSV de cartera.")
+            else:
+                cartera["Saldo_Vencido_90"] = cartera["SaldoCapital"].where(
+                    cartera["Morosidad"] > 90,
                     0
                 )
 
-                df_liq["Activos_Liquidos_Depositos"] = 0
+                resumen_icv = (
+                    cartera
+                    .groupby("FECHA_CORTE")
+                    .agg(
+                        Saldo_Vencido_Total=("Saldo_Vencido_90", "sum"),
+                        Saldo_Capital_Total=("SaldoCapital", "sum")
+                    )
+                    .reset_index()
+                )
 
-                col1, col2 = st.columns(2)
+                resumen_icv["ICV_90_Total"] = np.where(
+                    resumen_icv["Saldo_Capital_Total"] != 0,
+                    resumen_icv["Saldo_Vencido_Total"] / resumen_icv["Saldo_Capital_Total"] * 100,
+                    0
+                )
 
-                with col1:
+                fig_icv = go.Figure()
 
-                    fig_dep_cart = grafico_linea(
-                        df_liq,
-                        "Periodo",
-                        "Depositos_Cartera",
-                        "Depósitos / Cartera",
-                        "#0B3C5D"
+                fig_icv.add_trace(
+                    go.Scatter(
+                        x=resumen_icv["FECHA_CORTE"],
+                        y=resumen_icv["ICV_90_Total"],
+                        mode="lines+markers",
+                        name="ICV 90+",
+                        line=dict(color=PRIMARY, width=3),
+                        marker=dict(size=7, line=dict(width=1, color="white")),
+                        fill="tozeroy",
+                        fillcolor="rgba(11,31,58,0.08)"
+                    )
+                )
+
+                fig_icv.add_hline(
+                    y=5,
+                    line_dash="dash",
+                    line_color=ACCENT,
+                    annotation_text="Referencia 5%"
+                )
+
+                fig_icv = plot_layout(
+                    fig_icv,
+                    title="Evolución del ICV 90+",
+                    yaxis_title="%"
+                )
+
+                st.plotly_chart(fig_icv, use_container_width=True)
+
+                patronales_no_libranza = ["ASOCIADO EXTERNO", "EX-ASOCIADOS"]
+
+                cartera["Tipo_Cartera"] = np.where(
+                    cartera["NombrePatronal"].isin(patronales_no_libranza),
+                    "No Libranza",
+                    "Libranza"
+                )
+
+                resumen_modalidad = (
+                    cartera
+                    .groupby(["FECHA_CORTE", "Tipo_Cartera"])
+                    .agg(
+                        Saldo_Vencido_Total=("Saldo_Vencido_90", "sum"),
+                        Saldo_Capital_Total=("SaldoCapital", "sum")
+                    )
+                    .reset_index()
+                )
+
+                resumen_modalidad["ICV_90"] = np.where(
+                    resumen_modalidad["Saldo_Capital_Total"] != 0,
+                    resumen_modalidad["Saldo_Vencido_Total"] / resumen_modalidad["Saldo_Capital_Total"] * 100,
+                    0
+                )
+
+                fig_mod = px.line(
+                    resumen_modalidad,
+                    x="FECHA_CORTE",
+                    y="ICV_90",
+                    color="Tipo_Cartera",
+                    markers=True,
+                    color_discrete_map={
+                        "Libranza": PRIMARY,
+                        "No Libranza": ACCENT
+                    }
+                )
+
+                fig_mod = plot_layout(
+                    fig_mod,
+                    title="ICV 90+ por modalidad de cartera",
+                    yaxis_title="%"
+                )
+
+                st.plotly_chart(fig_mod, use_container_width=True)
+
+                rangos = [-np.inf, 30, 60, 90, 120, 150, 180, np.inf]
+                etiquetas = ["A", "B", "C", "D", "D", "D", "E"]
+
+                cartera["Calificacion_Mora"] = pd.cut(
+                    cartera["Morosidad"],
+                    bins=rangos,
+                    labels=etiquetas,
+                    right=True,
+                    include_lowest=True,
+                    ordered=False
+                )
+
+                comp_cal = (
+                    cartera
+                    .groupby(["FECHA_CORTE", "Calificacion_Mora"])["SaldoCapital"]
+                    .sum()
+                    .reset_index()
+                )
+
+                total_mes = comp_cal.groupby("FECHA_CORTE")["SaldoCapital"].transform("sum")
+
+                comp_cal["Participacion"] = np.where(
+                    total_mes != 0,
+                    comp_cal["SaldoCapital"] / total_mes * 100,
+                    0
+                )
+
+                fig_rating = px.bar(
+                    comp_cal,
+                    x="FECHA_CORTE",
+                    y="Participacion",
+                    color="Calificacion_Mora",
+                    color_discrete_sequence=[PRIMARY, SECONDARY, "#9CA3AF", ACCENT, RED]
+                )
+
+                fig_rating.update_layout(barmode="stack")
+
+                fig_rating = plot_layout(
+                    fig_rating,
+                    title="Distribución de cartera por calificación de mora",
+                    yaxis_title="%"
+                )
+
+                st.plotly_chart(fig_rating, use_container_width=True)
+
+        # =====================================================
+        # TAB 3
+        # =====================================================
+
+        with tab3:
+
+            st.markdown("#### Deterioro y provisiones")
+
+            c1, c2 = st.columns(2)
+
+            with c1:
+                fig = professional_line(
+                    df_bl,
+                    "Periodo",
+                    "Cobertura_Total",
+                    "Cobertura de cartera total",
+                    "Cobertura total",
+                    color=PRIMARY
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            with c2:
+                fig = professional_line(
+                    df_bl,
+                    "Periodo",
+                    "Cobertura_Vencida",
+                    "Cobertura de cartera vencida",
+                    "Cobertura vencida",
+                    color=ACCENT
+                )
+                fig.update_yaxes(title="Veces")
+                st.plotly_chart(fig, use_container_width=True)
+
+            df_deterioro = df_bl.copy()
+            df_deterioro["Provision_Cartera"] = df_deterioro["Cobertura_Total"]
+
+            fig = professional_multi_line(
+                df_deterioro,
+                "Periodo",
+                [
+                    {"col": "Cartera_Activos", "name": "Cartera / activos"},
+                    {"col": "Provision_Cartera", "name": "Provisión / cartera"}
+                ],
+                "Relación entre exposición y cobertura",
+                yaxis_title="%"
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+        # =====================================================
+        # TAB 4
+        # =====================================================
+
+        with tab4:
+
+            st.markdown("#### Concentración")
+
+            if cartera is None:
+                st.warning("Para esta sección debes cargar archivos CSV de cartera.")
+            else:
+                top_deudores = (
+                    cartera
+                    .groupby("NIT")["SaldoCapital"]
+                    .sum()
+                    .reset_index()
+                    .sort_values("SaldoCapital", ascending=False)
+                    .head(20)
+                )
+
+                total_cartera = cartera["SaldoCapital"].sum()
+
+                top_deudores["Participacion"] = np.where(
+                    total_cartera != 0,
+                    top_deudores["SaldoCapital"] / total_cartera * 100,
+                    0
+                )
+
+                fig_deudores = professional_bar(
+                    top_deudores,
+                    "NIT",
+                    "Participacion",
+                    "Top 20 deudores por concentración",
+                    yaxis_title="%"
+                )
+
+                st.plotly_chart(fig_deudores, use_container_width=True)
+
+                st.dataframe(
+                    top_deudores,
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+                if "AportesSociales" in cartera.columns:
+
+                    top_ahorro = (
+                        cartera
+                        .groupby("NIT")["AportesSociales"]
+                        .sum()
+                        .reset_index()
+                        .sort_values("AportesSociales", ascending=False)
+                        .head(20)
                     )
 
-                    fig_dep_cart.add_hline(
-                        y=100,
-                        line_dash="dash",
-                        line_color="#F37021",
-                        annotation_text="Referencia 100%"
+                    total_ahorro = cartera["AportesSociales"].sum()
+
+                    top_ahorro["Participacion"] = np.where(
+                        total_ahorro != 0,
+                        top_ahorro["AportesSociales"] / total_ahorro * 100,
+                        0
                     )
 
-                    st.plotly_chart(
-                        fig_dep_cart,
-                        use_container_width=True
+                    fig_ahorro = professional_bar(
+                        top_ahorro,
+                        "NIT",
+                        "Participacion",
+                        "Top 20 asociados por ahorro y aportes",
+                        yaxis_title="%"
                     )
 
-                with col2:
+                    st.plotly_chart(fig_ahorro, use_container_width=True)
 
-                    fig_cartera_indice = grafico_linea(
-                        df_liq,
-                        "Periodo",
-                        "Cartera_Total",
-                        "Evolución de Cartera Total",
-                        "#F37021"
+                    st.dataframe(
+                        top_ahorro,
+                        use_container_width=True,
+                        hide_index=True
                     )
 
-                    st.plotly_chart(
-                        fig_cartera_indice,
-                        use_container_width=True
-                    )
+        # =====================================================
+        # TAB 5
+        # =====================================================
 
-                st.info("""
-                En esta sección podemos agregar después:
-                
-                • Activos líquidos / depósitos  
-                • Brechas de liquidez  
-                • IRL  
-                • Dimensión L de CAMEL  
-                • Alertas tempranas de fondeo  
-                """)
+        with tab5:
 
-            st.markdown("---")
+            st.markdown("#### Liquidez y fondeo")
 
-            with st.expander("Ver tabla base procesada del Balance BL"):
-                st.dataframe(df_bl, use_container_width=True)
+            c1, c2 = st.columns(2)
 
-            if cartera is not None:
-                with st.expander("Ver tabla base procesada de cartera"):
-                    st.dataframe(cartera.head(1000), use_container_width=True)
+            with c1:
+                fig = professional_line(
+                    df_bl,
+                    "Periodo",
+                    "Depositos_Cartera",
+                    "Depósitos sobre cartera",
+                    "Depósitos / cartera",
+                    color=PRIMARY,
+                    reference=100,
+                    reference_label="Referencia 100%"
+                )
+                st.plotly_chart(fig, use_container_width=True)
 
-    # =====================================================
-    # OTROS MÓDULOS
-    # =====================================================
+            with c2:
+                fig = professional_multi_line(
+                    df_bl,
+                    "Periodo",
+                    [
+                        {"col": "Crecimiento_Mensual", "name": "Crecimiento cartera mensual"},
+                        {"col": "Crecimiento_Anual", "name": "Crecimiento cartera anual"}
+                    ],
+                    "Dinámica de crecimiento de cartera",
+                    yaxis_title="%"
+                )
+                st.plotly_chart(fig, use_container_width=True)
 
-    elif st.session_state.modulo == "SARC":
+            st.markdown(
+                """
+                <div class="section-card">
+                    <b>Próximas extensiones del módulo.</b><br>
+                    Activos líquidos sobre depósitos, brechas de liquidez, IRL, estabilidad del fondeo, concentración de captaciones y dimensión L del modelo CAMEL.
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
-        st.markdown("## 🏦 SARC")
-        st.info("""
-        Sistema de Administración de Riesgo de Crédito.
+        st.markdown("### Información procesada")
 
-        Próximamente:
-        • PD  
-        • LGD  
-        • EAD  
-        • Pérdida Esperada  
-        • NIIF 9  
-        • Score de riesgo  
-        """)
+        with st.expander("Ver base procesada del Balance BL"):
+            st.dataframe(df_bl, use_container_width=True, hide_index=True)
 
-    elif st.session_state.modulo == "SARL":
+        if cartera is not None:
+            with st.expander("Ver base procesada de cartera"):
+                st.dataframe(cartera.head(1000), use_container_width=True, hide_index=True)
 
-        st.markdown("## 💧 SARL")
-        st.info("""
-        Sistema de Administración de Riesgo de Liquidez.
 
-        Próximamente:
-        • Brechas de liquidez  
-        • IRL  
-        • Stress testing  
-        • Fondeo  
-        """)
+# =====================================================
+# OTROS MODULOS
+# =====================================================
 
-    elif st.session_state.modulo == "SARM":
+elif st.session_state.modulo == "SARC":
 
-        st.markdown("## 📈 SARM")
-        st.info("""
-        Sistema de Administración de Riesgo de Mercado.
+    page_header(
+        "SARC",
+        "Sistema de Administración de Riesgo de Crédito"
+    )
 
-        Próximamente:
-        • VaR  
-        • Duración  
-        • Sensibilidades  
-        • Monte Carlo  
-        """)
+    col1, col2 = st.columns(2)
 
-    elif st.session_state.modulo == "SARO":
+    with col1:
+        st.markdown(
+            """
+            <div class="module-card">
+                <div class="module-title">Pérdida esperada</div>
+                <div class="module-text">
+                Cálculo de pérdida esperada bajo la estructura PD, LGD y EAD, con segmentación por línea, producto, modalidad y perfil de riesgo.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-        st.markdown("## ⚙️ SARO")
-        st.info("""
-        Sistema de Administración de Riesgo Operacional.
+    with col2:
+        st.markdown(
+            """
+            <div class="module-card">
+                <div class="module-title">Calidad crediticia</div>
+                <div class="module-text">
+                Seguimiento del ICV, cosechas, transición de mora, concentración, deterioro y alertas tempranas de cartera.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-        Próximamente:
-        • Eventos de riesgo  
-        • Matriz de probabilidad e impacto  
-        • KRI  
-        • Planes de acción  
-        """)
 
-    else:
+elif st.session_state.modulo == "SARL":
 
-        st.markdown("## Bienvenido a SolidRisk")
-
-        st.markdown("""
-        <div class='card'>
-        Selecciona un módulo en el menú lateral para iniciar.
-        </div>
-        """, unsafe_allow_html=True)
+    page_header(
+        "SARL",
+        "Sistema de Administración de Riesgo de Liquidez"
+    )
 
     st.markdown(
-        "<div class='footer'>© 2026 SolidRisk | By PwC - Analfe</div>",
+        """
+        <div class="section-card">
+            Módulo diseñado para análisis de brechas de liquidez, IRL, escenarios de estrés, concentración de fondeo y estabilidad de depósitos.
+        </div>
+        """,
         unsafe_allow_html=True
     )
+
+
+elif st.session_state.modulo == "SARM":
+
+    page_header(
+        "SARM",
+        "Sistema de Administración de Riesgo de Mercado"
+    )
+
+    st.markdown(
+        """
+        <div class="section-card">
+            Módulo diseñado para medición de VaR, sensibilidad a tasas, duración, convexidad, backtesting y simulaciones de mercado.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+elif st.session_state.modulo == "SARO":
+
+    page_header(
+        "SARO",
+        "Sistema de Administración de Riesgo Operacional"
+    )
+
+    st.markdown(
+        """
+        <div class="section-card">
+            Módulo diseñado para eventos de riesgo operativo, KRIs, matriz de probabilidad e impacto, controles, planes de acción y pérdidas operacionales.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# =====================================================
+# FOOTER
+# =====================================================
+
+st.markdown(
+    """
+    <div class="footer">
+        SolidRisk 1.0 | Enterprise Risk Intelligence Platform | By PwC - Analfe
+    </div>
+    """,
+    unsafe_allow_html=True
+)
