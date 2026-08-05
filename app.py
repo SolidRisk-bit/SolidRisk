@@ -169,7 +169,7 @@ st.markdown(
 
     .kpi-card:hover{
             transform:translateY(-4px);
-    }}
+    }
 
     .kpi-value{
             font-size:32px;
