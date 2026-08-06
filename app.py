@@ -138,43 +138,74 @@ input[type="text"] {{
     transition: border-color 0.2s ease;
 }}
 
+/* ==========================================
+   INPUTS LOGIN PROFESIONALES
+========================================== */
+
 input:not([type="password"]) {{
     width: 100%;
-    padding: 14px 18px;
-    border-radius: 12px;
+    padding: 16px 20px;
+    border-radius: 14px;
     border: 1.5px solid #D1D5DB;
     background-color: #F9FAFB;
-    font-size: 15px;
+    font-size: 16px;
     color: #111827;
     margin-bottom: 24px;
     box-sizing: border-box;
+}}
+
+/* CONTENEDOR PASSWORD */
+
+div[data-testid="stTextInputRootElement"] {{
+    width: 100% !important;
+}}
+
+div[data-baseweb="base-input"] {{
+    width: 100% !important;
+    min-height: 60px !important;
 }}
 
 div[data-baseweb="input"] {{
     width: 100% !important;
 }}
 
+/* CAMPO CONTRASEÑA */
+
 div[data-baseweb="input"] input {{
     width: 100% !important;
-    height: 55px !important;
-    font-size: 16px !important;
-    padding-left: 15px !important;
+    min-width: 350px !important;
+    height: 60px !important;
+    padding-left: 18px !important;
+    padding-right: 60px !important;
+    font-size: 18px !important;
+    color: #111827 !important;
+    background-color: #F9FAFB !important;
 }}
+
+/* BOTON OJO */
 
 button[title="Show password text"],
 button[title="Hide password text"] {{
-    width: auto !important;
+    width: 40px !important;
     min-width: 40px !important;
     max-width: 40px !important;
+    height: 40px !important;
     padding: 0 !important;
+    margin-right: 8px !important;
+    background: transparent !important;
+    border: none !important;
 }}
+
+/* FOCUS */
 
 input[type="text"]:focus,
 input[type="password"]:focus {{
-    border-color: #FD5108;
-    outline: none;
-    background-color: white;
+    border-color: #FD5108 !important;
+    outline: none !important;
+    background-color: white !important;
 }}
+
+/* BOTONES */
 
 button {{
     display: block;
@@ -187,13 +218,16 @@ button {{
     border: none;
     border-radius: 14px;
     cursor: pointer;
-    box-shadow: 0 6px 16px rgba(253, 81, 8, 0.3);
-    transition: background 0.3s ease;
+    box-shadow: 0 6px 16px rgba(253, 81, 8, 0.30);
+    transition: all 0.3s ease;
 }}
 
 button:hover {{
     background: linear-gradient(135deg, #FD5108 0%, #FE8C39 100%);
+    transform: translateY(-2px);
 }}
+
+/* MODULE CARDS */
 
 .module-card {{
     background-color: white;
@@ -224,6 +258,8 @@ button:hover {{
     line-height: 1.45;
 }}
 
+/* SECTION CARD */
+
 .section-card {{
     background-color: white;
     border: 1px solid {BORDER};
@@ -233,23 +269,24 @@ button:hover {{
     margin-bottom: 18px;
 }}
 
-.kpi-card{{
-    background:white;
-    border-radius:18px;
-    padding:22px;
-    border:none;
-    box-shadow:0px 8px 25px rgba(0,0,0,0.07);
-    border-top:5px solid #FD5108;
-    transition:all .25s ease;
+/* KPI */
+
+.kpi-card {{
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    border: none;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.07);
+    border-top: 5px solid #FD5108;
+    transition: all .25s ease;
 }}
 
 .kpi-card:hover {{
     transform: translateY(-4px);
-    transition: all .25s ease;
 }}
 
 .kpi-value {{
-    font-size: 29px;
+    font-size: 32px;
     color: {PRIMARY};
     font-weight: 800;
     margin-top: 8px;
