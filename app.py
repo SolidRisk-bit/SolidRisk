@@ -802,7 +802,7 @@ def procesar_archivos_cartera(archivos_csv):
     ]
 
     for col in columnas_numericas:
-        if col not in cartera.columns: width: 100%;
+        if col not in cartera.columns:
             cartera[col] = 0
 
         cartera[col] = (
