@@ -984,7 +984,7 @@ section[data-testid="stSidebar"] div.stButton:last-child > button:hover {{
 if st.session_state.modulo == "Dashboard Ejecutivo":
 
     page_header(
-        "SolidRisk",
+        "SolidRisk - Fondos de Empleados",
         "Dashboard Ejecutivo de Indicadores Financieros, Cartera, Deterioro y Concentración"
     )
 
