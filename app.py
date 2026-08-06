@@ -887,8 +887,8 @@ if not st.session_state.login:
         <div class="login-box">
             <div class="login-title">SolidRisk</div>
             <div class="login-subtitle">
-                Enterprise Risk Intelligence Platform<br>
-                By PwC - Analfe
+                Risk Intelligence Platform<br>
+                Alianza PwC - Analfe
             </div>
         </div>
         """,
