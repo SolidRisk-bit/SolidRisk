@@ -925,7 +925,7 @@ with st.sidebar:
                 SolidRisk
             </div>
             <div style="font-size:12px;color:#D8E1EA;">
-                Enterprise Risk Intelligence Platform
+                Risk Intelligence Platform
             </div>
             <div style="font-size:12px;color:#F8C99B;margin-top:6px;">
                 By PwC - Analfe
@@ -1737,7 +1737,7 @@ elif st.session_state.modulo == "SARO":
 st.markdown(
     """
     <div class="footer">
-        SolidRisk 1.0 | Enterprise Risk Intelligence Platform | By PwC - Analfe
+        SolidRisk 1.0 | Risk Intelligence Platform | Alianza PwC - Analfe
     </div>
     """,
     unsafe_allow_html=True
