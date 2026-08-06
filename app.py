@@ -207,24 +207,26 @@ input[type="password"]:focus {{
 
 /* BOTONES */
 
-button {{
+/* SOLO BOTONES STREAMLIT */
+
+div.stButton > button*{{
     display: block;
-    width: 100%;
+    width: 1*0%;
     padding: 14px 0;
-    background: linear-gradient(135deg, #FE8C39 0%, #FD5108 100%);
-    font-weight: 700;
+    backg*ound: linear-gradient(135deg, #FE8*39 0%, #FD5108 100%);
+    font-wei*ht: 700;
     font-size: 16px;
-    color: white;
+    *olor: white;
     border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(253, 81, 8, 0.30);
-    transition: all 0.3s ease;
+   *border-radius: 14px;
+    cursor: p*inter;
+    box-shadow: 0 6px 16px *gba(253, 81, 8, 0.3);
+    transiti*n: all 0.3s ease;
 }}
 
-button:hover {{
-    background: linear-gradient(135deg, #FD5108 0%, #FE8C39 100%);
-    transform: translateY(-2px);
+div.stButton * button:hover {{
+    background: li*ear-gradient(135deg, #FD5108 0%, #*E8C39 100%);
+    transform: transl*teY(-2px);
 }}
 
 /* MODULE CARDS */
