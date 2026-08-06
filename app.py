@@ -150,6 +150,25 @@ input:not([type="password"]) {{
     box-sizing: border-box;
 }}
 
+div[data-baseweb="input"] {{
+    width: 100% !important;
+}}
+
+div[data-baseweb="input"] input {{
+    width: 100% !important;
+    height: 55px !important;
+    font-size: 16px !important;
+    padding-left: 15px !important;
+}}
+
+button[title="Show password text"],
+button[title="Hide password text"] {{
+    width: auto !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    padding: 0 !important;
+}}
+
 input[type="text"]:focus,
 input[type="password"]:focus {{
     border-color: #FD5108;
