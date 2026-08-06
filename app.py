@@ -94,29 +94,76 @@ section[data-testid="stSidebar"] * {{
 
 .login-box {{
     background-color: white;
-    padding: 34px;
+    max-width: 420px;
+    padding: 40px 36px;
     border-radius: 20px;
-    box-shadow: 0 12px 34px rgba(11,31,58,0.15);
-    border: 1px solid {BORDER};
-    max-width: 480px;
-    margin: 45px auto 10px auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    margin: 100px auto 30px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }}
 
 .login-title {{
-    font-size: 34px;
-    font-weight: 800;
-    color: {PRIMARY};
+    font-size: 36px;
+    font-weight: 900;
+    color: #1E293B;
     text-align: center;
-    letter-spacing: 1.6px;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }}
 
 .login-subtitle {{
-    text-align: center;
-    color: {MUTED};
     font-size: 14px;
-    margin-bottom: 26px;
+    font-weight: 400;
+    color: #6B7280;
+    text-align: center;
+    margin-bottom: 32px;
 }}
+
+label {{
+    font-weight: 600;
+    font-size: 14px;
+    color: #334155;
+    display: block;
+    margin-bottom: 6px;
+}}
+
+input[type="text"],
+input[type="password"] {{
+    width: 100%;
+    padding: 14px 18px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 12px;
+    background-color: #F9FAFB;
+    font-size: 15px;
+    color: #111827;
+    margin-bottom: 24px;
+    transition: border-color 0.2s ease;
+}}
+
+input[type="text"]:focus,
+input[type="password"]:focus {{
+    border-color: #FD5108;
+    outline: none;
+    background-color: white;
+}}
+
+button {{
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(135deg, #FE8C39 0%, #FD5108 100%);
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(253, 81, 8, 0.3);
+    transition: background 0.3s ease;
+}}
+
+button:hover {{
+    background: linear-gradient(135deg, #FD5108 0%, #FE8C39 100%);
+}]
 
 .module-card {{
     background-color: white;
