@@ -163,7 +163,7 @@ button {{
 
 button:hover {{
     background: linear-gradient(135deg, #FD5108 0%, #FE8C39 100%);
-}]
+}}
 
 .module-card {{
     background-color: white;
