@@ -138,16 +138,16 @@ input[type="text"] {{
     transition: border-color 0.2s ease;
 }}
 
-input[type="password"] {{
+input {{
     width: 100%;
-    padding: 12px 40px 12px 12px; /* Padding: arriba, derecha, abajo, izquierda */
-    border: 1.5px solid #D1D5DB;
+    padding: 14px 18px;
     border-radius: 12px;
+    border: 1.5px solid #D1D5DB;
     background-color: #F9FAFB;
     font-size: 15px;
     color: #111827;
     margin-bottom: 24px;
-    box-sizing: border-box; /* Asegura que padding y borde no aumenten tamaño */
+    box-sizing: border-box;
 }}
 
 input[type="text"]:focus,
