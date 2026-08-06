@@ -140,14 +140,13 @@ input[type="text"] {{
 
 input[type="password"] {{
     width: 100%;
-    padding: 14px 45px 14px 18px; /* más padding a la derecha para icono */
     border: 1.5px solid #D1D5DB;
     border-radius: 12px;
     background-color: #F9FAFB;
     font-size: 15px;
     color: #111827;
     margin-bottom: 24px;
-    transition: border-color 0.2s ease;
+    /* Sin padding personalizado para no afectar el ícono */
 }}
 
 input[type="text"]:focus,
