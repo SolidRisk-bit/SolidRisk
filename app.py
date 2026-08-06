@@ -456,7 +456,7 @@ def page_header(title, subtitle):
         <div class="main-header">
             <p class="main-title">{title}</p>
             <p class="main-subtitle">{subtitle}</p>
-            <p class="brand-line">By PwC - Analfe</p>
+            <p class="brand-line">PwC _Analfe</p>
         </div>
         """,
         unsafe_allow_html=True
@@ -928,7 +928,7 @@ with st.sidebar:
                 Risk Intelligence Platform
             </div>
             <div style="font-size:12px;color:#F8C99B;margin-top:6px;">
-                By PwC - Analfe
+                PwC _Analfe
             </div>
         </div>
         """,
