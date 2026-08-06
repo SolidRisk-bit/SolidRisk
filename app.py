@@ -138,7 +138,7 @@ input[type="text"] {{
     transition: border-color 0.2s ease;
 }}
 
-input {{
+input:not([type="password"]) {{
     width: 100%;
     padding: 14px 18px;
     border-radius: 12px;
@@ -783,7 +783,7 @@ def procesar_archivos_cartera(archivos_csv):
     ]
 
     for col in columnas_numericas:
-        if col not in cartera.columns:
+        if col not in cartera.columns: width: 100%;
             cartera[col] = 0
 
         cartera[col] = (
